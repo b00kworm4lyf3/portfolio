@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+a, a:hover, a:active, a:visited, a:focus{
+    text-decoration: none;
+}
+
 body {
     font-family: 'Space Grotesk', sans-serif;
     line-height: 1.6;
