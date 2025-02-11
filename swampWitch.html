@@ -1,17 +1,20 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sage Brielle - Swamp Witch</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="portfolio.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sage Brielle - Swamp Witch</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="portfolio.css">
+    </head>
 </head>
 <body>
     <nav class="nav">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">Sage Brielle</a>
+            <a href="/" class="nav-logo">Sage Brielle</a>
             <div class="nav-links">
                 <a href="work.html">Work</a>
                 <a href="about.html">About</a>
@@ -19,40 +22,91 @@
             </div>
         </div>
     </nav>
-    
-    <main class="about-page">
+
+    <main class="project-page">
+        <div class="project-hero">
+            <img src="img/LindseyWitchCloseup.jpg" alt="Swamp witch makeup and costume">
+        </div>
+        
         <div class="container">
-            <h1>Swamp Witch</h1>
-            
-            <section class="about-intro">
-                <img src="img/LindseyWitchFullBody.jpg" alt="Swamp Witch Full Body" class="about-image">
-                <div class="about-content">
-                    <p class="lead">I created the swamp witch as my final project for the
-                         Master Makeup Artist program at The Art of Makeup in Portland, Oregon. 
-                         She is a culmination of all the skills we learned in the SFX section 
-                         of the program under the guidance of Thomas Surprenant, which included 
-                         lifecasting models, character design, sculpting, molding, and casting 
-                         in different materials, and the application and painting of prosthetic 
-                         makeup pieces on my model Lindsey. 
-                    </p>
-                </div>
-            </section>
-
-            <section class="skills">
-                <h2>Process Images</h2>
-                <div class="skills-grid">
-                    <div class="skill-category">
-                            
+            <article class="project-content">
+                <header class="project-header">
+                    <h1>Swamp Witch</h1>
+                    <div class="project-meta">
+                        <div class="tags">
+                            <span class="tag">SFX</span>
+                            <span class="tag">Makeup</span>
+                            <span class="tag">Character Design</span>
+                        </div>
+                        <time>Completed: December 2018</time>
                     </div>
-                    <!-- Add more skill categories -->
-                </div>
-            </section>
+                </header>
 
-            <section class="contact" id="contact">
-                <h2>Get In Touch</h2>
-                <p>Interested in collaboration or have a project in mind? Let's talk!</p>
-                <a href="mailto:sage.ebert@colorado.edu" class="cta-button">Contact Me</a>
-            </section>
+                <section class="project-overview">
+                    <h2>Overview</h2>
+                    <p>I created the swamp witch as my final project for the Master Makeup Artist 
+                        program at The Art of Makeup in Portland, Oregon. She is a culmination of 
+                        all the skills we learned in the SFX section of the program under the 
+                        guidance of Thomas Surprenant, which included lifecasting models, character 
+                        design, sculpting, molding, and casting in different materials, and the 
+                        application and painting of prosthetic makeup pieces on my model Lindsey.
+                    </p>
+                </section>
+
+                <section class="project-gallery">
+                    <h2>Gallery</h2>
+                    <div class="gallery-grid">
+                        <img src="img/lifecastingCropped.jpg" alt="Lifecasting process">
+                        <img src="img/LindseyBeforeCropped.jpg" alt="Model before makeup">
+                        <img src="img/LindseyProgressCropped.jpg" alt="Model during makeup">
+                        <img src="img/witchEyebrowsCloseup.JPG" alt="Hand-tied eyebrows on their block">
+                        <img src="img/ReadyToBeMolded.jpg" alt="Clay prosthetic pieces">
+                        <img src="img/witchWigStyled.jpg" alt="Styled wig on mannequin head">
+                    </div>
+                </section>
+
+                <section class="project-process">
+                    <h2>Development Process</h2>
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <h3>Research & Planning</h3>
+                            <p> When planning this project I wanted to make something that showed 
+                                I could be creative, but also make something realistic and screen-ready.
+                                A witch seemed to be a good base character to show these skills,
+                                and is a relatively clean slate to work with when building a character
+                                alongside the makeup. Sadly my Pinterest inspo board for this project has
+                                been lost to time, or I would link it here to show a bit more of my thought
+                                process.
+                            </p>
+                        </div>
+                        <div class="process-step">
+                            <h3>Lifecasting and Sculpting</h3>
+                            <p> The first step in creating a makeup look like this is lifecasting your model.
+                                You can sculpt on a generic face, but if you have the opportunity to make something
+                                that fits perfectly you should do it. 
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- <section class="project-tech">
+                    <h2>Technical Details</h2>
+                    <ul class="tech-list">
+                        <li>
+                            <h3>Shader Development</h3>
+                            <p>Description of shader techniques used...</p>
+                        </li>
+                        <!-- Add more technical details -->
+                    <!-- </ul>
+                </section> -->
+            </article>
+
+            <!-- <aside class="project-navigation">
+                <h2>More Projects</h2>
+                <div class="related-projects"> -->
+                    <!-- Add links to other projects -->
+                <!-- </div>
+            </aside> -->
         </div>
     </main>
 </body>
