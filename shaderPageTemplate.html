@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shader Project - Sage Brielle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="portfolio.css">
+    
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">Sage Brielle</a>
+            <div class="nav-links">
+                <a href="work.html">Work</a>
+                <a href="about.html">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="project-content">
+        <header class="project-header">
+            <h1>Shader Project Title</h1>
+            <p>Description of your shader project and its features.</p>
+        </header>
+
+        <div class="shader-container">
+            <div class="code-panel">
+                <div class="panel-header">
+                    <h3>Shader Code</h3>
+                </div>
+                <div class="panel-content">
+                    <pre><code class="language-glsl">
+// Fragment Shader
+precision mediump float;
+
+uniform float time;
+uniform vec2 resolution;
+
+void main() {
+    vec2 uv = gl_FragCoord.xy/resolution.xy;
+    vec3 col = 0.5 + 0.5*cos(time+uv.xyx+vec3(0,2,4));
+    gl_FragColor = vec4(col,1.0);
+}
+                    </code></pre>
+                </div>
+            </div>
+
+            <div class="preview-panel">
+                <div class="panel-header">
+                    <h3>Live Preview</h3>
+                </div>
+                <div class="panel-content">
+                    <canvas id="shaderCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <h3>Shader Controls</h3>
+            <div class="control-group">
+                <div class="control-item">
+                    <label for="timeSpeed">Animation Speed</label>
+                    <input type="range" id="timeSpeed" min="0" max="2" step="0.1" value="1">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-glsl.min.js"></script>
+    <script>
+        // Vertex shader program
+        const vsSource = `
+            attribute vec4 aVertexPosition;
+            void main() {
+                gl_Position = aVertexPosition;
+            }
+        `;
+
+        // Fragment shader program
+        const fsSource = `
+            precision mediump float;
+            uniform float time;
+            uniform vec2 resolution;
+            
+            void main() {
+                vec2 uv = gl_FragCoord.xy/resolution.xy;
+                vec3 col = 0.5 + 0.5*cos(time+uv.xyx+vec3(0,2,4));
+                gl_FragColor = vec4(col,1.0);
+            }
+        `;
+
+        function initShaderProgram(gl, vsSource, fsSource) {
+            const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vsSource);
+            const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource);
+
+            const shaderProgram = gl.createProgram();
+            gl.attachShader(shaderProgram, vertexShader);
+            gl.attachShader(shaderProgram, fragmentShader);
+            gl.linkProgram(shaderProgram);
+
+            if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+                console.error('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
+                return null;
+            }
+
+            return shaderProgram;
+        }
+
+        function loadShader(gl, type, source) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                console.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
+                gl.deleteShader(shader);
+                return null;
+            }
+
+            return shader;
+        }
+
+        function main() {
+            const canvas = document.querySelector('#shaderCanvas');
+            const gl = canvas.getContext('webgl');
+
+            if (!gl) {
+                console.error('Unable to initialize WebGL. Your browser may not support it.');
+                return;
+            }
+
+            const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
+            
+            const programInfo = {
+                program: shaderProgram,
+                attribLocations: {
+                    vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+                },
+                uniformLocations: {
+                    time: gl.getUniformLocation(shaderProgram, 'time'),
+                    resolution: gl.getUniformLocation(shaderProgram, 'resolution'),
+                },
+            };
+
+            // Create a buffer for the square's positions.
+            const positionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+            // Create a square
+            const positions = [
+                -1.0,  1.0,
+                 1.0,  1.0,
+                -1.0, -1.0,
+                 1.0, -1.0,
+            ];
+
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+            let then = 0;
+            let timeSpeed = 1.0;
+
+            // Update canvas size
+            function resizeCanvas() {
+                const displayWidth = canvas.clientWidth;
+                const displayHeight = canvas.clientHeight;
+
+                if (canvas.width !== displayWidth || canvas.height !== displayHeight) {
+                    canvas.width = displayWidth;
+                    canvas.height = displayHeight;
+                    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+                }
+            }
+
+            // Get the speed control
+            const speedControl = document.getElementById('timeSpeed');
+            speedControl.addEventListener('input', (e) => {
+                timeSpeed = parseFloat(e.target.value);
+            });
+
+            function render(now) {
+                now *= 0.001;  // Convert to seconds
+                const deltaTime = now - then;
+                then = now;
+
+                resizeCanvas();
+
+                gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+
+                gl.useProgram(programInfo.program);
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+                gl.vertexAttribPointer(
+                    programInfo.attribLocations.vertexPosition,
+                    2,          // 2 components per vertex
+                    gl.FLOAT,   // the data is 32bit floats
+                    false,      // don't normalize
+                    0,          // stride
+                    0,          // offset
+                );
+                gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
+
+                gl.uniform1f(programInfo.uniformLocations.time, now * timeSpeed);
+                gl.uniform2f(programInfo.uniformLocations.resolution, gl.canvas.width, gl.canvas.height);
+
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+                requestAnimationFrame(render);
+            }
+
+            requestAnimationFrame(render);
+        }
+
+        main();
+    </script>
+</body>
+</html>
