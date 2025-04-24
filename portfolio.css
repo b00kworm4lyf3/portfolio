@@ -375,9 +375,9 @@ body {
     position: relative;
     background: #2a2a2a;
     border-radius: 12px;
-    padding: 2rem 3rem;
+    padding: 2rem 2rem;
     border: 1px solid rgba(255,255,255,0.1);
-    width: 67%;
+    width: 59%;
 }
 
 .project-content p{
