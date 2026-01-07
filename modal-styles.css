@@ -1,0 +1,382 @@
+/* Modal/Overlay Styles */
+.project-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.project-modal {
+    background: #2a2a2a;
+    border-radius: 12px;
+    max-width: 1000px;
+    width: 100%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.1);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(57, 255, 20, 0.1);
+    border: 1px solid rgba(57, 255, 20, 0.3);
+    color: #39ff14;
+    font-size: 2rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    line-height: 1;
+    padding: 0;
+}
+
+.modal-close:hover {
+    background: #39ff14;
+    color: #1a1a1a;
+    transform: rotate(90deg);
+}
+
+.modal-content {
+    padding: 2rem;
+    padding-top: 3rem;
+    position: relative;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+}
+
+/* Split layout for overview and image */
+.modal-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.modal-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-preview-image {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    object-fit: cover;
+    max-height: 400px;
+}
+
+.modal-content .project-header {
+    margin-bottom: 1.5rem;
+}
+
+.modal-content .project-header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(45deg, #39ff14, #00ff80);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.modal-content .project-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+}
+
+.modal-content .project-meta time {
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+.modal-content .project-meta .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    justify-content: flex-start;
+}
+
+.modal-content section {
+    margin-bottom: 0;
+}
+
+.modal-content h2 {
+    color: #f8fafc;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.modal-content p {
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.modal-actions {
+    margin-top: 1.5rem;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+    background: #2a2a2a;
+    border-radius: 0 0 12px 12px;
+    flex-shrink: 0;
+}
+
+/* Loading state */
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+/* Tag link styling for clickable tags in modal */
+.tag-link {
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tag-link:hover {
+    background: linear-gradient(90deg, rgba(57, 255, 20, 0.2), rgba(0, 255, 128, 0.2));
+    border-color: rgba(57, 255, 20, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Smooth transitions for project cards */
+.portfolio-item {
+    transition: all 0.3s ease;
+}
+
+.portfolio-item:hover {
+    cursor: pointer;
+}
+
+/* Filter button improvements */
+.work-filters {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.filter-label {
+    color: #f8fafc;
+    font-weight: 500;
+    margin-right: 0.5rem;
+    line-height: 2.5rem;
+}
+
+/* Category dropdown containers */
+.filter-category {
+    position: relative;
+    display: inline-block;
+}
+
+.category-button {
+    background: #2a2a2a;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #e2e8f0;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.category-button:hover {
+    border-color: rgba(57, 255, 20, 0.5);
+    color: #39ff14;
+}
+
+.category-button.has-active {
+    background: linear-gradient(90deg, rgba(57, 255, 20, 0.1), rgba(0, 255, 128, 0.1));
+    border-color: rgba(57, 255, 20, 0.3);
+    color: #39ff14;
+}
+
+.category-arrow {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+}
+
+/* Dropdown menu */
+.category-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    background: #2a2a2a;
+    border: 1px solid rgba(57, 255, 20, 0.2);
+    border-radius: 8px;
+    padding: 0.5rem;
+    min-width: 200px;
+    display: none;
+    flex-direction: column;
+    gap: 0.35rem;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.category-dropdown.open {
+    display: flex;
+}
+
+/* Tag buttons inside dropdowns */
+.filter-tag {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #e2e8f0;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.filter-tag:hover {
+    background: rgba(57, 255, 20, 0.1);
+    border-color: rgba(57, 255, 20, 0.3);
+    color: #39ff14;
+}
+
+.filter-tag.active {
+    background: linear-gradient(90deg, rgba(57, 255, 20, 0.15), rgba(0, 255, 128, 0.15));
+    border-color: rgba(57, 255, 20, 0.4);
+    color: #39ff14;
+    font-weight: 500;
+}
+
+/* Old filter button styles for clear button */
+.filter-btn {
+    background: #2a2a2a;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #e2e8f0;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.filter-btn:hover {
+    border-color: rgba(57, 255, 20, 0.5);
+    color: #39ff14;
+}
+
+.filter-btn.active {
+    background: linear-gradient(90deg, rgba(57, 255, 20, 0.1), rgba(0, 255, 128, 0.1));
+    border-color: rgba(57, 255, 20, 0.3);
+    color: #39ff14;
+}
+
+.filter-btn.clear-filters {
+    background: rgba(255, 59, 48, 0.1);
+    border-color: rgba(255, 59, 48, 0.3);
+    color: #ff3b30;
+}
+
+.filter-btn.clear-filters:hover {
+    background: rgba(255, 59, 48, 0.2);
+    border-color: rgba(255, 59, 48, 0.5);
+}
+
+/* Responsive modal */
+@media (max-width: 768px) {
+    .project-modal-overlay {
+        padding: 1rem;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+        padding-top: 3rem;
+    }
+    
+    .modal-split {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .modal-preview-image {
+        max-height: 250px;
+    }
+
+    .modal-content .project-header h1 {
+        font-size: 1.75rem;
+    }
+    
+    .modal-close {
+        top: 1rem;
+        right: 1rem;
+    }
+}
+
+/* Accessibility improvements */
+.modal-close:focus,
+.filter-btn:focus {
+    outline: 2px solid #39ff14;
+    outline-offset: 2px;
+}
+
+/* Ensure body doesn't scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+}

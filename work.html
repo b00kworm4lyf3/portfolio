@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="portfolio.css">
+    <link rel="stylesheet" href="modal-styles.css">
 </head>
 <body>
     <nav class="nav">
@@ -22,109 +23,20 @@
     
     <main class="work-page">
         <div class="container">
-            <!-- <h1>All Work</h1> -->
             <section class="portfolio" id="portfolio">
                 <h2>All Work</h2>
-                <div class="portfolio-grid">
-                    <a href="swampWitch.html">
-                        <article class="portfolio-item">
-                            <img src="img/LindseyWitchCloseup.jpg" alt="Swamp Witch">
-                            <div class="portfolio-content">
-                                <h3>Swamp Witch</h3>
-                                <p>Character design, SFX makeup fabrication and application.</p>
-                                <div class="tags">
-                                    <span class="tag">SFX</span>
-                                    <span class="tag">Makeup</span>
-                                    <span class="tag">Character Design</span>
-                                </div>
-                            </div>
-                        </article>
-                    </a>
-        
-                    <a href="brokenDoll.html">
-                        <article class="portfolio-item">
-                            <img src="img/Doll4.JPG" alt="Broken Doll">
-                            <div class="portfolio-content">
-                                <h3>Broken Doll</h3>
-                                <p>Shifting character design and makeup application.</p>
-                                <div class="tags">
-                                    <span class="tag">Beauty</span>
-                                    <span class="tag">Makeup</span>
-                                    <span class="tag">Character Design</span>
-                                </div>
-                            </div>
-                        </article>
-                    </a>
-                    
-                    <a href="lonelyNight.html">
-                        <article class="portfolio-item">
-                            <img src="img/LonelyNightMozStill.png" alt="Lonely Night">
-                            <div class="portfolio-content">
-                                <h3>Lonely Night</h3>
-                                <p>Prototype VR environment based on a dream.</p>
-                                <div class="tags">
-                                    <span class="tag">Unity</span>
-                                    <span class="tag">Mozilla Hubs</span>
-                                    <span class="tag">XR</span>
-                                </div>
-                            </div>
-                        </article>  
-                    </a>
+                
+                <!-- Filter buttons will be generated here -->
+                <div class="work-filters" id="filterButtons">
+                    <span class="filter-label">Filter by:</span>
+                </div>
 
-                    <a href = "miniMonsterHunter.html">
-                        <article class="portfolio-item">
-                            <img src="img/MiniMonsterHunterScreenshot3.jpg" alt="Mini Monster Hunter">
-                            <div class="portfolio-content">
-                                <h3>Mini Monster Hunter</h3>
-                                <p>"Inventory" program made for a C++ coding class.</p>
-                                <div class="tags">
-                                    <span class="tag">C++</span>
-                                    <span class="tag">Game Design</span>
-                                    <span class="tag">Character Design</span>
-                                </div>
-                            </div>
-                        </article>
-                    </a>
-
-                    <a href = "fairyHouses.html">
-                        <article class="portfolio-item">
-                            <img src="img/mushroomsBelow.png" alt="Rendered fairy houses">
-                            <div class="portfolio-content">
-                                <h3>Fairy Houses</h3>
-                                <p>Blender render and project development.</p>
-                                <div class="tags">
-                                    <span class="tag">Blender</span>
-                                    <span class="tag">3D Modeling</span>
-                                </div>
-                            </div>
-                        </article>
-                    </a>
+                <!-- Projects grid -->
+                <div class="portfolio-grid" id="allProjects">
+                    <div class="loading">Loading projects...</div>
                 </div>
             </section>
-            <!-- <div class="work-filters">
-                <button class="filter-btn active">All</button>
-                <button class="filter-btn">Generative Art</button>
-                <button class="filter-btn">Shaders</button>
-                <button class="filter-btn">Installations</button>
-            </div>
 
-            <div class="work-grid"> -->
-                <!-- Featured projects -->
-                <!-- <article class="work-item">
-                    <a href="projects/procedural-landscape.html">
-                        <img src="/api/placeholder/600/400" alt="Procedural Landscape">
-                        <div class="work-content">
-                            <h2>Procedural Landscape</h2>
-                            <p>Real-time procedural landscape generation using custom shaders.</p>
-                            <div class="tags">
-                                <span class="tag">WebGL</span>
-                                <span class="tag">GLSL</span>
-                            </div>
-                        </div>
-                    </a>
-                </article> -->
-                <!-- Add more work items -->
-            <!-- </div> -->
             <section class="contact" id="contact">
                 <h2>Get In Touch</h2>
                 <p>Interested in collaboration or have a project in mind? Let's talk!</p>
@@ -132,5 +44,209 @@
             </section>
         </div>
     </main>
+
+    <script src="projects.js"></script>
+    <script>
+        let activeFilters = new Set();
+        let tagCategories = {};
+
+        function getTagsFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const tags = params.get('tags');
+            const singleTag = params.get('tag');
+            if (tags) return tags.split(',');
+            if (singleTag) return [singleTag];
+            return [];
+        }
+
+        async function loadAllProjects() {
+            await projectManager.loadProjects();
+            
+            // Get categories directly from projects
+            tagCategories = projectManager.getTagsByCategory();
+            
+            generateFilterButtons();
+            const tagsFromUrl = getTagsFromUrl();
+            if (tagsFromUrl.length > 0) {
+                activeFilters = new Set(tagsFromUrl);
+                displayProjects();
+                updateFilterButtons();
+            } else {
+                displayProjects();
+            }
+        }
+
+        function generateFilterButtons() {
+            const filterContainer = document.getElementById('filterButtons');
+            
+            let categoriesHtml = '<span class="filter-label">Filter by:</span>';
+            
+            // Create a dropdown for each category
+            for (let category in tagCategories) {
+                const tags = tagCategories[category];
+                if (tags.length === 0) continue;
+                
+                categoriesHtml += `
+                    <div class="filter-category">
+                        <button class="category-button" data-category="${category}">
+                            ${category} <span class="category-arrow">▼</span>
+                        </button>
+                        <div class="category-dropdown" data-category="${category}">
+                            ${tags.map(tag => 
+                                `<button class="filter-tag" data-filter="${tag}">${tag}</button>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            categoriesHtml += '<button class="filter-btn clear-filters" id="clearFilters" style="display: none;">Clear All</button>';
+            
+            filterContainer.innerHTML = categoriesHtml;
+
+            // Add click handlers for category dropdowns
+            filterContainer.querySelectorAll('.category-button').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const category = e.currentTarget.dataset.category;
+                    const dropdown = filterContainer.querySelector(`.category-dropdown[data-category="${category}"]`);
+                    const arrow = e.currentTarget.querySelector('.category-arrow');
+                    
+                    // Toggle this dropdown
+                    const isOpen = dropdown.classList.contains('open');
+                    
+                    // Close all dropdowns
+                    filterContainer.querySelectorAll('.category-dropdown').forEach(d => d.classList.remove('open'));
+                    filterContainer.querySelectorAll('.category-arrow').forEach(a => a.textContent = '▼');
+                    
+                    // Open this one if it was closed
+                    if (!isOpen) {
+                        dropdown.classList.add('open');
+                        arrow.textContent = '▲';
+                    }
+                });
+            });
+
+            // Add click handlers for tag buttons
+            filterContainer.querySelectorAll('.filter-tag').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const filter = e.target.dataset.filter;
+                    
+                    if (activeFilters.has(filter)) {
+                        activeFilters.delete(filter);
+                    } else {
+                        activeFilters.add(filter);
+                    }
+                    
+                    displayProjects();
+                    updateFilterButtons();
+                    updateUrl();
+                });
+            });
+
+            // Clear filters button
+            document.getElementById('clearFilters').addEventListener('click', () => {
+                activeFilters.clear();
+                displayProjects();
+                updateFilterButtons();
+                updateUrl();
+                // Close all dropdowns
+                filterContainer.querySelectorAll('.category-dropdown').forEach(d => d.classList.remove('open'));
+                filterContainer.querySelectorAll('.category-arrow').forEach(a => a.textContent = '▼');
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.filter-category')) {
+                    filterContainer.querySelectorAll('.category-dropdown').forEach(d => d.classList.remove('open'));
+                    filterContainer.querySelectorAll('.category-arrow').forEach(a => a.textContent = '▼');
+                }
+            });
+        }
+
+        function updateFilterButtons() {
+            const filterContainer = document.getElementById('filterButtons');
+            const clearBtn = document.getElementById('clearFilters');
+            
+            // Update active states
+            filterContainer.querySelectorAll('.filter-tag').forEach(btn => {
+                if (activeFilters.has(btn.dataset.filter)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Update category button to show count of active filters in that category
+            for (let category in tagCategories) {
+                const categoryBtn = filterContainer.querySelector(`.category-button[data-category="${category}"]`);
+                const tagsInCategory = tagCategories[category];
+                const activeInCategory = tagsInCategory.filter(tag => activeFilters.has(tag)).length;
+                
+                if (activeInCategory > 0) {
+                    categoryBtn.classList.add('has-active');
+                    // Update text to show count
+                    const arrow = categoryBtn.querySelector('.category-arrow');
+                    categoryBtn.childNodes[0].textContent = `${category} (${activeInCategory}) `;
+                } else {
+                    categoryBtn.classList.remove('has-active');
+                    const arrow = categoryBtn.querySelector('.category-arrow');
+                    categoryBtn.childNodes[0].textContent = `${category} `;
+                }
+            }
+            
+            // Show/hide clear button
+            clearBtn.style.display = activeFilters.size > 0 ? 'inline-block' : 'none';
+        }
+
+        function updateUrl() {
+            if (activeFilters.size === 0) {
+                window.history.pushState({}, '', 'work.html');
+            } else {
+                const tagsParam = Array.from(activeFilters).join(',');
+                window.history.pushState({}, '', `work.html?tags=${encodeURIComponent(tagsParam)}`);
+            }
+        }
+
+        function displayProjects() {
+            let projects;
+            if (activeFilters.size === 0) {
+                projects = projectManager.getAllProjects();
+            } else {
+                projects = projectManager.getAllProjects().filter(project => {
+                    // Get all tags from project (flatten if categorized)
+                    const projectTags = Array.isArray(project.tags) 
+                        ? project.tags 
+                        : Object.values(project.tags).flat();
+                    
+                    // Check if project has ALL active tags
+                    return Array.from(activeFilters).every(tag => 
+                        projectTags.some(t => t.toLowerCase() === tag.toLowerCase())
+                    );
+                });
+            }
+            
+            const container = document.getElementById('allProjects');
+            if (projects.length === 0) {
+                container.innerHTML = '<p>No projects match the selected filters.</p>';
+                return;
+            }
+
+            container.innerHTML = projects.map(project => {
+                return `
+                    <a href="#" onclick="event.preventDefault(); projectManager.showProjectModal('${project.id}');">
+                        ${projectManager.renderProjectCard(project)}
+                    </a>
+                `;
+            }).join('');
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadAllProjects);
+        } else {
+            loadAllProjects();
+        }
+    </script>
 </body>
 </html>

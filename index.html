@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="portfolio.css">
+    <link rel="stylesheet" href="modal-styles.css">
 </head>
 <body>
     <nav class="nav">
@@ -28,51 +29,9 @@
 
     <section class="portfolio" id="portfolio">
         <h2>Featured Work</h2>
-        <div class="portfolio-grid">
-            <a href="swampWitch.html">
-                <article class="portfolio-item">
-                    <img src="img/LindseyWitchCloseup.jpg" alt="Swamp Witch">
-                    <div class="portfolio-content">
-                        <h3>Swamp Witch</h3>
-                        <p>Character design, SFX makeup fabrication and application.</p>
-                        <div class="tags">
-                            <span class="tag">SFX</span>
-                            <span class="tag">Makeup</span>
-                            <span class="tag">Character Design</span>
-                        </div>
-                    </div>
-                </article>
-            </a>
-
-            <a href="brokenDoll.html">
-                <article class="portfolio-item">
-                    <img src="img/Doll4.JPG" alt="Broken Doll">
-                    <div class="portfolio-content">
-                        <h3>Broken Doll</h3>
-                        <p>Shifting character design and makeup application.</p>
-                        <div class="tags">
-                            <span class="tag">Beauty</span>
-                            <span class="tag">Makeup</span>
-                            <span class="tag">Character Design</span>
-                        </div>
-                    </div>
-                </article>
-            </a>
-
-            <a href="lonelyNight.html">
-                <article class="portfolio-item">
-                    <img src="img/LonelyNightMozStill.png" alt="Lonely Night">
-                    <div class="portfolio-content">
-                        <h3>Lonely Night</h3>
-                        <p>Prototype VR environment based on a dream.</p>
-                        <div class="tags">
-                            <span class="tag">Unity</span>
-                            <span class="tag">Mozilla Hubs</span>
-                            <span class="tag">XR</span>
-                        </div>
-                    </div>
-                </article>
-            </a>
+        <div class="portfolio-grid" id="featuredProjects">
+            <!-- Projects will be loaded here dynamically -->
+            <div class="loading">Loading projects...</div>
         </div>
         <div class="view-all" style="text-align: center; margin-top: 1.5rem;">
             <a href="work.html" class="cta-button">View All Projects</a>
@@ -80,7 +39,6 @@
     </section>
 
     <section class="about" id="about">
-        <!-- <h2>About Me</h2> -->
         <p>I'm a blossoming technical artist utilizing my makeup experience to create immersive digital artwork and tools. My work combines programming, mathematics, and artistic vision to create unique visual experiences.</p>
     </section>
 
@@ -89,5 +47,35 @@
         <p>Interested in collaboration or have a project in mind? Let's talk!</p>
         <a href="mailto:sage.ebert@colorado.edu" class="cta-button">Contact Me</a>
     </section>
+
+    <script src="projects.js"></script>
+    <script>
+        // Load and display featured projects
+        async function loadFeaturedProjects() {
+            await projectManager.loadProjects();
+            const featured = projectManager.getFeaturedProjects();
+            const container = document.getElementById('featuredProjects');
+            
+            if (featured.length === 0) {
+                container.innerHTML = '<p>No featured projects available.</p>';
+                return;
+            }
+
+            container.innerHTML = featured.map(project => {
+                return `
+                    <a href="#" onclick="event.preventDefault(); projectManager.showProjectModal('${project.id}');">
+                        ${projectManager.renderProjectCard(project)}
+                    </a>
+                `;
+            }).join('');
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadFeaturedProjects);
+        } else {
+            loadFeaturedProjects();
+        }
+    </script>
 </body>
 </html>

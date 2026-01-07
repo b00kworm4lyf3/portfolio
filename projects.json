@@ -1,0 +1,182 @@
+{
+  "projects": [
+    {
+      "id": "swamp-witch",
+      "title": "Swamp Witch",
+      "slug": "swampWitch",
+      "thumbnail": "img/LindseyWitchCloseup.jpg",
+      "hero": "img/LindseyWitchCloseup.jpg",
+      "shortDescription": "Character design, SFX makeup fabrication and application.",
+      "date": "December 2018",
+      "tags": {
+        "Type": ["SFX", "Makeup", "Character Design"],
+        "Tech": []
+      },
+      "featured": true,
+      "overview": "I created the swamp witch as my final project for the Master Makeup Artist program at The Art of Makeup in Portland, Oregon. She is a culmination of all the skills we learned in the SFX section of the program under the guidance of Thomas Surprenant, which included lifecasting models, character design, sculpting, molding, and casting in different materials, and the application and painting of prosthetic makeup pieces on my model Lindsey.",
+      "gallery": [
+        {
+          "src": "img/witchEyebrowsCloseup.JPG",
+          "alt": "Hand-tied eyebrows on their block"
+        },
+        {
+          "src": "img/ReadyToBeMolded.jpg",
+          "alt": "Clay prosthetic pieces"
+        },
+        {
+          "src": "img/LindseyProgressCropped.jpg",
+          "alt": "Model during makeup"
+        },
+        {
+          "src": "img/lifecastingCropped.jpg",
+          "alt": "Lifecasting process"
+        },
+        {
+          "src": "img/witchWigStyledCropped.jpg",
+          "alt": "Styled wig on mannequin head"
+        },
+        {
+          "src": "img/LindseyBeforeCropped.jpg",
+          "alt": "Model before makeup"
+        }
+      ],
+      "process": [
+        {
+          "title": "Research & Planning",
+          "content": "When planning this project I wanted to make something that showed I could be creative, but also make something realistic and screen-ready. A witch seemed to be a good base character to show these skills, and is a relatively clean slate to work with when building a character alongside the makeup. Sadly my Pinterest inspo board for this project has been lost to time, or I would link it here to show a bit more of my thought process."
+        },
+        {
+          "title": "Lifecasting and Sculpting",
+          "content": "The first step in creating a makeup look like this is lifecasting your model. You can sculpt on a generic face, but if you have the opportunity to make something that fits perfectly you should do it."
+        }
+      ]
+    },
+    {
+      "id": "broken-doll",
+      "title": "Broken Doll",
+      "slug": "brokenDoll",
+      "thumbnail": "img/Doll4.JPG",
+      "hero": "img/Doll4.JPG",
+      "shortDescription": "Shifting character design and makeup application.",
+      "date": "October 2018",
+      "tags": {
+        "Type": ["Beauty", "Makeup", "Character Design"],
+        "Tech": []
+      },
+      "featured": true,
+      "overview": "I created this makeup as the final project for the hair and beauty section of the Master Makeup Artist program at The Art of Makeup in Portland, Oregon. The project was to create a character that could evolve halfway through the photoshoot, so we would end up with photos of a distinct character with a story that had been told through two different makeup looks. I came up with the idea of a doll that started loved and glowing, and then ended up broken, dirty, and abandoned in a pile of other dolls.",
+      "gallery": [
+        {
+          "src": "img/Doll2.JPG",
+          "alt": "Beauty shot of doll makeup"
+        },
+        {
+          "src": "img/Doll4.JPG",
+          "alt": "After shot of doll makeup - broken version"
+        }
+      ],
+      "process": [
+        {
+          "title": "Process",
+          "content": "I like to try to push the boundaries of any given assignment, and this one was no different. This being a beauty makeup challenge, I wanted to create a character that was beautiful, but who also had a story to tell, which brought me to the idea of the evolution of a well-loved doll. The model who helped me with this project was very young and so was the perfect fit for this idea, letting me focus on a clean beauty application without needing to do any color correcting or major facial feature changes.\n\nThe headpiece helped take this simple concept to the next level, allowing me to demonstrate my fabrication skills as well as my makeup skills. I used a heavy guage wire to create the structure, and thrifted doll heads which I glued to the wire frame. Since the dolls were all made out of different materials it took some trial and error to figure out which glues would work for each one, and I ended up using a combination of hot glue, super glue, and epoxy. One of the dolls had a veil that I wanted to keep, so I had to be careful with the super glue to make sure I didn't burn any holes in it. I also used some spray starch to stiffen the veil so it could be seen in the photos.\n\nFor the first makeup, I used a cream Kryolan base, and set it with translucent powder only under the eyes. I added a lot of blush to her cheeks and eyelids, but wanted to keep her skin very plastic looking so didn't use any highlighter. I lightly filled in her eyebrows and added a little bit of mascara, but no eyeliner.\n\nOnce we had gotten the first set of photos, it was time to update the look for the second set. I wanted this look to still be rooted in beauty, but take on a more editorial or grunge feeling, so I only changed the makeup a little bit, adding some darker lip gloss that I smeared outside her lip line and a little bit of water mixed with black eyeshadow to add a tear streak down one of her cheeks. I also used some dark brown powder to add dirt to her face, one spot on her forehead and into the creases of her eyes."
+        }
+      ]
+    },
+    {
+      "id": "lonely-night",
+      "title": "Lonely Night",
+      "slug": "lonelyNight",
+      "thumbnail": "img/LonelyNightMozStill.png",
+      "hero": "img/LonelyNightMozStill2.png",
+      "shortDescription": "Prototype VR environment based on a dream.",
+      "date": "April 2024 (Mozilla) / August 2024 (Unity)",
+      "tags": {
+        "Type": ["XR"],
+        "Tech": ["Unity", "Mozilla Hubs"]
+      },
+      "featured": true,
+      "overview": "Lonely Night is an ongoing project that I started in Mozilla Hubs and later ported in to Unity. Based on a dream I had, it is a VR space that is meant to evoke a sense of loneliness and longing through the imagery of an ongoing party that is impossible to interact with.",
+      "gallery": [
+        {
+          "src": "img/LonelyNightMozStill.png",
+          "alt": "Screenshot of Lonely Night Mozilla Hubs room"
+        },
+        {
+          "src": "img/LonelyNightMozStill2.png",
+          "alt": "Screenshot of Lonely Night Mozilla Hubs room"
+        },
+        {
+          "src": "img/LonelyNightUnityGIF.gif",
+          "alt": "GIF of Lonely Night Unity version"
+        }
+      ],
+      "process": [
+        {
+          "title": "Mozilla Hubs",
+          "content": ""
+        },
+        {
+          "title": "Unity Engine",
+          "content": ""
+        }
+      ]
+    },
+    {
+      "id": "mini-monster-hunter",
+      "title": "Mini Monster Hunter",
+      "slug": "miniMonsterHunter",
+      "thumbnail": "img/MiniMonsterHunterScreenshot3.jpg",
+      "hero": "img/MiniMonsterHunterScreenshot1.jpg",
+      "shortDescription": "\"Inventory\" program made for a C++ coding class.",
+      "date": "December 2023",
+      "tags": {
+        "Type": ["Game Design", "Character Design"],
+        "Tech": ["C++"]
+      },
+      "featured": false,
+      "overview": "I made Mini Monster Hunter as a final project for my C++ data structures class at Portland Community College. The game is a simple text-based monster inventory, where the player can add their own monsters and then battle them in the arena. This was my first large, multi-file C++ project, and I learned a lot while building it.",
+      "gallery": [],
+      "interactive": {
+        "type": "replit",
+        "url": "https://replit.com/@SageEbert/Final-Project?embed=true&theme=dark"
+      },
+      "process": [
+        {
+          "title": "Research & Planning",
+          "content": ""
+        }
+      ]
+    },
+    {
+      "id": "fairy-houses",
+      "title": "Fairy Houses",
+      "slug": "fairyHouses",
+      "thumbnail": "img/mushroomsBelow.png",
+      "hero": "img/mushroomsBelow.png",
+      "shortDescription": "Blender render and project development.",
+      "date": "December 2024",
+      "tags": {
+        "Type": ["3D Modeling"],
+        "Tech": ["Blender"]
+      },
+      "featured": false,
+      "overview": "I made these fairy houses as part of a group project for my Design Foundations class, in which we were tasked with creating a pitch for a new monument on campus. We decided to create a hidden fairy garden, where students could go to find a little magic and whimsy. I was responsible for creating the 3D models of the houses, which were inspired by mushrooms and tree houses.",
+      "gallery": [
+        {
+          "src": "img/mushroomsBelow.png",
+          "alt": "Mushroom fairy houses"
+        },
+        {
+          "src": "img/treeHouseSide.png",
+          "alt": "Hanging tree house, gazebo inspired"
+        }
+      ],
+      "process": [
+        {
+          "title": "Research & Planning",
+          "content": ""
+        }
+      ]
+    }
+  ]
+}
