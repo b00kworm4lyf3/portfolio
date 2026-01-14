@@ -1,0 +1,420 @@
+/* Blog Feed Styles */
+.blog-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.blog-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.blog-header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(45deg, #39ff14, #00ff80);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+}
+
+.blog-header p {
+    color: #94a3b8;
+    font-size: 1.1rem;
+}
+
+/* Blog Controls */
+.blog-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.blog-filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-label {
+    color: #f8fafc;
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+/* Category Dropdown Styles */
+.filter-category {
+    position: relative;
+    display: inline-block;
+}
+
+.category-button {
+    background: #2a2a2a;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #e2e8f0;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.category-button:hover {
+    border-color: rgba(57, 255, 20, 0.5);
+    color: #39ff14;
+}
+
+.category-button.has-active {
+    background: linear-gradient(90deg, rgba(57, 255, 20, 0.1), rgba(0, 255, 128, 0.1));
+    border-color: rgba(57, 255, 20, 0.3);
+    color: #39ff14;
+}
+
+.category-arrow {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+}
+
+.category-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 0.5rem;
+    background: #2a2a2a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 0.5rem;
+    min-width: 200px;
+    z-index: 10;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+.category-dropdown.open {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.filter-tag {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #e2e8f0;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    text-align: left;
+    width: 100%;
+}
+
+.filter-tag:hover {
+    border-color: rgba(57, 255, 20, 0.5);
+    color: #39ff14;
+    background: rgba(57, 255, 20, 0.05);
+}
+
+.filter-tag.active {
+    background: linear-gradient(90deg, rgba(57, 255, 20, 0.15), rgba(0, 255, 128, 0.15));
+    border-color: rgba(57, 255, 20, 0.4);
+    color: #39ff14;
+}
+
+.blog-sort {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sort-label {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.sort-btn {
+    background: #2a2a2a;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #e2e8f0;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sort-btn:hover {
+    border-color: rgba(57, 255, 20, 0.5);
+    color: #39ff14;
+}
+
+.sort-btn .sort-icon {
+    transition: transform 0.3s ease;
+}
+
+.sort-btn.oldest .sort-icon {
+    transform: rotate(180deg);
+}
+
+/* Blog Posts Feed */
+.blog-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.blog-post {
+    background: #2a2a2a;
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+}
+
+.blog-post:hover {
+    border-color: rgba(57, 255, 20, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+.post-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.post-header h2 {
+    color: #f8fafc;
+    margin-bottom: 0.75rem;
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+.post-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.post-meta time {
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+.post-meta .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.post-content {
+    color: #e2e8f0;
+    line-height: 1.8;
+}
+
+.post-content p {
+    margin-bottom: 1rem;
+    color: #e2e8f0;
+}
+
+.post-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Post Images */
+.post-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.post-image {
+    margin: 0;
+}
+
+.post-image img {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: transform 0.3s ease;
+}
+
+.post-image img:hover {
+    transform: scale(1.02);
+}
+
+.post-image figcaption {
+    margin-top: 0.5rem;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    font-style: italic;
+    text-align: center;
+}
+
+/* Filter Buttons */
+.filter-btn {
+    background: #2a2a2a;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #e2e8f0;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.filter-btn:hover {
+    border-color: rgba(57, 255, 20, 0.5);
+    color: #39ff14;
+}
+
+.filter-btn.active {
+    background: linear-gradient(90deg, rgba(57, 255, 20, 0.1), rgba(0, 255, 128, 0.1));
+    border-color: rgba(57, 255, 20, 0.3);
+    color: #39ff14;
+}
+
+.filter-btn.clear-filters {
+    background: rgba(255, 59, 48, 0.1);
+    border-color: rgba(255, 59, 48, 0.3);
+    color: #ff3b30;
+}
+
+.filter-btn.clear-filters:hover {
+    background: rgba(255, 59, 48, 0.2);
+    border-color: rgba(255, 59, 48, 0.5);
+}
+
+/* Tag links in posts */
+.tag-link {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tag-link:hover {
+    background: linear-gradient(90deg, rgba(57, 255, 20, 0.2), rgba(0, 255, 128, 0.2));
+    border-color: rgba(57, 255, 20, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Loading and empty states */
+.loading, .no-posts {
+    text-align: center;
+    padding: 3rem;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+/* Assignment Details Dropdown */
+.assignment-details {
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.assignment-toggle {
+    width: 100%;
+    background: rgba(57, 255, 20, 0.05);
+    border: none;
+    color: #39ff14;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.assignment-toggle:hover {
+    background: rgba(57, 255, 20, 0.1);
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.assignment-details.open .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.assignment-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+    background: rgba(0,0,0,0.2);
+}
+
+.assignment-details.open .assignment-content {
+    max-height: 2000px;
+    padding: 1rem;
+    overflow-y: auto; /* Add scrollbar if content exceeds max-height */
+}
+
+.assignment-content p {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    font-style: italic;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .blog-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .blog-filters {
+        justify-content: center;
+    }
+
+    .blog-sort {
+        justify-content: center;
+    }
+
+    .blog-post {
+        padding: 1.5rem;
+    }
+
+    .post-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .post-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .post-images {
+        grid-template-columns: 1fr;
+    }
+}

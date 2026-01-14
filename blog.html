@@ -1,13 +1,14 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sage Brielle - Work</title>
+    <title>Sage Brielle - Blog</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="portfolio.css">
-    <link rel="stylesheet" href="modal-styles.css">
+    <link rel="stylesheet" href="blog-styles.css">
 </head>
 <body>
     <nav class="nav">
@@ -22,31 +23,41 @@
         </div>
     </nav>
     
-    <main class="work-page">
-        <div class="container">
-            <section class="portfolio" id="portfolio">
-                <h2>All Work</h2>
-                
-                <!-- Filter buttons will be generated here -->
-                <div class="work-filters" id="filterButtons">
-                    <span class="filter-label">Filter by:</span>
-                </div>
+    <main class="blog-page">
+        <header class="blog-header">
+            <h1>Blog & Journal</h1>
+            <p>Documenting my creative journey, assignments, and experiments</p>
+        </header>
 
-                <!-- Projects grid -->
-                <div class="portfolio-grid" id="allProjects">
-                    <div class="loading">Loading projects...</div>
-                </div>
-            </section>
+        <div class="blog-controls">
+            <!-- Filter buttons will be generated here -->
+            <div class="blog-filters" id="filterButtons">
+                <span class="filter-label">Filter:</span>
+            </div>
 
-            <section class="contact" id="contact">
-                <h2>Get In Touch</h2>
-                <p>Interested in collaboration or have a project in mind? Let's talk!</p>
-                <a href="mailto:sage.ebert@colorado.edu" class="cta-button">Contact Me</a>
-            </section>
+            <!-- Sort toggle -->
+            <div class="blog-sort">
+                <span class="sort-label">Sort:</span>
+                <button class="sort-btn newest" id="sortToggle">
+                    <span class="sort-text">Newest First</span>
+                    <span class="sort-icon">↓</span>
+                </button>
+            </div>
         </div>
+
+        <!-- Blog feed -->
+        <div class="blog-feed" id="blogFeed">
+            <div class="loading">Loading posts...</div>
+        </div>
+
+        <section class="contact" id="contact">
+            <h2>Get In Touch</h2>
+            <p>Interested in collaboration or have a project in mind? Let's talk!</p>
+            <a href="mailto:sage.ebert@colorado.edu" class="cta-button">Contact Me</a>
+        </section>
     </main>
 
-    <script src="projects.js"></script>
+    <script src="blog.js"></script>
     <script>
         let activeFilters = new Set();
         let tagCategories = {};
@@ -60,27 +71,28 @@
             return [];
         }
 
-        async function loadAllProjects() {
-            await projectManager.loadProjects();
+        async function initBlog() {
+            await blogManager.loadPosts();
             
-            // Get categories directly from projects
-            tagCategories = projectManager.getTagsByCategory();
+            // Get categories directly from posts
+            tagCategories = blogManager.getTagsByCategory();
             
             generateFilterButtons();
+            
+            // Check for tags in URL
             const tagsFromUrl = getTagsFromUrl();
             if (tagsFromUrl.length > 0) {
                 activeFilters = new Set(tagsFromUrl);
-                displayProjects();
                 updateFilterButtons();
-            } else {
-                displayProjects();
             }
+            
+            displayPosts();
         }
 
         function generateFilterButtons() {
             const filterContainer = document.getElementById('filterButtons');
             
-            let categoriesHtml = '<span class="filter-label">Filter by:</span>';
+            let categoriesHtml = '<span class="filter-label">Filter:</span>';
             
             // Create a dropdown for each category
             for (let category in tagCategories) {
@@ -140,7 +152,7 @@
                         activeFilters.add(filter);
                     }
                     
-                    displayProjects();
+                    displayPosts();
                     updateFilterButtons();
                     updateUrl();
                 });
@@ -149,7 +161,7 @@
             // Clear filters button
             document.getElementById('clearFilters').addEventListener('click', () => {
                 activeFilters.clear();
-                displayProjects();
+                displayPosts();
                 updateFilterButtons();
                 updateUrl();
                 // Close all dropdowns
@@ -203,50 +215,77 @@
 
         function updateUrl() {
             if (activeFilters.size === 0) {
-                window.history.pushState({}, '', 'work.html');
+                window.history.pushState({}, '', 'blog.html');
             } else {
                 const tagsParam = Array.from(activeFilters).join(',');
-                window.history.pushState({}, '', `work.html?tags=${encodeURIComponent(tagsParam)}`);
+                window.history.pushState({}, '', `blog.html?tags=${encodeURIComponent(tagsParam)}`);
             }
         }
 
-        function displayProjects() {
-            let projects;
+        function displayPosts() {
+            let posts;
             if (activeFilters.size === 0) {
-                projects = projectManager.getAllProjects();
+                posts = blogManager.getAllPosts();
             } else {
-                projects = projectManager.getAllProjects().filter(project => {
-                    // Get all tags from project (flatten if categorized)
-                    const projectTags = Array.isArray(project.tags) 
-                        ? project.tags 
-                        : Object.values(project.tags).flat();
+                posts = blogManager.getAllPosts().filter(post => {
+                    // Get all tags from post (flatten if categorized)
+                    const postTags = Array.isArray(post.tags) 
+                        ? post.tags 
+                        : Object.values(post.tags).flat();
                     
-                    // Check if project has ALL active tags
+                    // Check if post has ALL active tags
                     return Array.from(activeFilters).every(tag => 
-                        projectTags.some(t => t.toLowerCase() === tag.toLowerCase())
+                        postTags.some(t => t.toLowerCase() === tag.toLowerCase())
                     );
                 });
             }
             
-            const container = document.getElementById('allProjects');
-            if (projects.length === 0) {
-                container.innerHTML = '<p>No projects match the selected filters.</p>';
+            const container = document.getElementById('blogFeed');
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<div class="no-posts">No posts match the selected filters.</div>';
                 return;
             }
 
-            container.innerHTML = projects.map(project => {
-                return `
-                    <a href="#" onclick="event.preventDefault(); projectManager.showProjectModal('${project.id}');">
-                        ${projectManager.renderProjectCard(project)}
-                    </a>
-                `;
-            }).join('');
+            container.innerHTML = posts.map(post => blogManager.renderPost(post)).join('');
+            
+            // Add click handlers to tag links
+            container.querySelectorAll('.tag-link').forEach(tag => {
+                tag.addEventListener('click', () => {
+                    const tagName = tag.dataset.tag;
+                    activeFilters.clear();
+                    activeFilters.add(tagName);
+                    displayPosts();
+                    updateFilterButtons();
+                    updateUrl();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
         }
 
+        // Sort toggle functionality
+        document.getElementById('sortToggle').addEventListener('click', function() {
+            blogManager.toggleSortOrder();
+            
+            // Update button appearance
+            if (blogManager.sortOrder === 'oldest') {
+                this.classList.remove('newest');
+                this.classList.add('oldest');
+                this.querySelector('.sort-text').textContent = 'Oldest First';
+            } else {
+                this.classList.remove('oldest');
+                this.classList.add('newest');
+                this.querySelector('.sort-text').textContent = 'Newest First';
+            }
+            
+            displayPosts();
+        });
+
+        // Initialize
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadAllProjects);
+            document.addEventListener('DOMContentLoaded', initBlog);
         } else {
-            loadAllProjects();
+            initBlog();
         }
     </script>
 </body>

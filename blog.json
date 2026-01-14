@@ -1,0 +1,21 @@
+{
+  "posts": [
+    {
+      "id": "CSCI4239-2025-01-13-Homework-01",
+      "title": "CSCI4239 Homework 1: NDC to RGB Shader",
+      "date": "2025-01-13",
+      "tags": {
+        "Course": ["CSCI4239", "Advanced Computer Graphics"],
+        "Topic": ["OpenGL", "GLSL Shaders"]
+      },
+      "content": "Goals for this homework:\nI would like to refactor the silly shader setup into prettier c++ classes and functions before starting on the NDC to RGB shader, this way I have a good template to start from for larger assignments later in the semester. As for the NDC to RGB shader, I want to make make sure I understand the basic concepts first so will be initially working on making it look/work similarly to what we were shown in class. Once I get that working though I want to try to do a quick implimentation of my falling stars particles that I made with P5.js last year.",
+      "images": [
+        {
+          "src": "img/example.jpg",
+          "caption": "Optional caption for the image"
+        }
+      ],
+      "assignmentDetails": "Create a program that displays a scene in 3D that can be viewed from any direction under user control. Example 1 would be a good starting point.\n\nThe color of every vertex in every object should be set using a shader such that the coordinates of the vertex in Normalized Device Coordinates ([-1,+1] in x,y,z) determines the color of the vertex using a linear mapping in RGB space [0-1].\n\nYour program must work in both orthogonal and perspective, so NDC space starts as 4D homogeneous coordinates and w will not be 1.\n\nThis is a trivial shader, and the vertex and fragment shader should each be only one or two lines.  So make an effort of making this as elegant as you can. Consider this Shader Golf.\n\nWhat to submit:\n1) One ZIP archive containing all files you are submitting;\n\t2) Source code, makefile and any data files I need;\n\t3) README with brief instructions on how to use the program;\n\t4) Time it took you to complete the assignment.\n\nDo a \"make clean\" before creating the ZIP file to clean out intermediate files.\n\nMake sure your program unzips in the current folder.\n\nYou may use the CSCIx5239 library, but make sure that you know what each function from that library that you use is doing."
+    }
+  ]
+}
