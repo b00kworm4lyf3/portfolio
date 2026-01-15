@@ -240,6 +240,24 @@
     margin-bottom: 0;
 }
 
+.post-content a {
+    color: #39ff14;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(57, 255, 20, 0.3);
+}
+
+.post-content a:hover {
+    color: #00ff80;
+    border-bottom-color: rgba(0, 255, 128, 0.6);
+}
+
+.post-content a:visited {
+    color: #00ff80;
+    border-bottom-color: rgba(0, 255, 128, 0.3);
+}
+
 /* Post Images */
 .post-images {
     display: grid;
@@ -368,14 +386,13 @@
 .assignment-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease;
+    transition: max-height 0.3s ease;
     background: rgba(0,0,0,0.2);
 }
 
 .assignment-details.open .assignment-content {
-    max-height: 2000px;
+    max-height: 500px;
     padding: 1rem;
-    overflow-y: auto; /* Add scrollbar if content exceeds max-height */
 }
 
 .assignment-content p {
