@@ -8,11 +8,41 @@
         "Course": ["CSCI4239", "Advanced Computer Graphics"],
         "Topic": ["OpenGL", "GLSL Shaders"]
       },
-      "content": "Goals for this homework (Written 01-13):\nI want to make sure I understand the basic concepts first so will be initially working on making it look/work similarly to what we were shown in class. Once I get that working though I want to try to do a quick implementation of my falling stars particles that I made with P5.js last year.\n\n\nReflection (Written 1-14/1-15):\nThe basic NDC to RGB shader was pretty straightforward, especially after I gave up trying to do it completely in the frag shader. I know it can be done using just the frag shader, but realized after fiddling for a bit that I was just reverse engineering something that the vertex shader already did. Once I got the trivial shader working I wanted to add in my stars, for which I repurposed the particle system I wrote for my final project in CSCI4229 last semester. Getting the NDC to RGB color swap to work was simple, as I just had to change the original color assignment to what I had done for the NDC to RGB shader, but calculating a star shape for my point sprites was an absolute brainteaser! I ended up reading some blogs and The Book of Shaders to figure out how to do it and got a little pinwheel looking thing before I decided to get some help from Claude. I asked it to not give me the answer directly but to give me feedback on my thinking process, and that helped me realize I was forgetting to mix between the inner and outer radius of the star. I'm pretty happy with how this turned out! I would like to add some twinkling and rotation for the next pass I take on the stars, but I'm happy I decided to add a little extra to this assignment.\n\n<a href=\"https://github.com/b00kworm4lyf3/CSCI4239-hw1-NDC2RGB\" target=\"_blank\" rel=\"noopener noreferrer\">Link to GitHub Repo</a>",
-      "images": [
+      "content": [
         {
-          "src": "img/example.jpg",
-          "caption": "Optional caption for the image"
+          "type": "section",
+          "heading": "Goals",
+          "note": "Written 01-13",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "I want to make sure I understand the basic concepts first so will be initially working on making it look/work similarly to what we were shown in class. Once I get that working though I want to try to do a quick implementation of my falling stars particles that I made with P5.js last year."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reflection",
+          "note": "Written 1-14/1-15",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "The basic NDC to RGB shader was pretty straightforward, especially after I gave up trying to do it completely in the frag shader. I know it can be done using just the frag shader, but realized after fiddling for a bit that I was just reverse engineering something that the vertex shader already did. Once I got the trivial shader working I wanted to add in my stars, for which I repurposed the particle system I wrote for my final project in CSCI4229 last semester."
+            },
+            {
+              "type": "text",
+              "text": "Getting the NDC to RGB color swap to work was simple, as I just had to change the original color assignment to what I had done for the NDC to RGB shader, but calculating a star shape for my point sprites was an absolute brainteaser! I ended up reading some blogs and The Book of Shaders to figure out how to do it and got a little pinwheel looking thing before I decided to get some help from Claude. I asked it to not give me the answer directly but to give me feedback on my thinking process, and that helped me realize I was forgetting to mix between the inner and outer radius of the star."
+            },
+            {
+              "type": "text",
+              "text": "I'm pretty happy with how this turned out! I would like to add some twinkling and rotation for the next pass I take on the stars, but I'm happy I decided to add a little extra to this assignment."
+            },
+            {
+              "type": "link",
+              "url": "https://github.com/b00kworm4lyf3/CSCI4239-hw1-NDC2RGB",
+              "text": "Link to GitHub Repo"
+            }
+          ]
         }
       ],
       "assignmentDetails": "Create a program that displays a scene in 3D that can be viewed from any direction under user control. Example 1 would be a good starting point.\n\nThe color of every vertex in every object should be set using a shader such that the coordinates of the vertex in Normalized Device Coordinates ([-1,+1] in x,y,z) determines the color of the vertex using a linear mapping in RGB space [0-1].\n\nYour program must work in both orthogonal and perspective, so NDC space starts as 4D homogeneous coordinates and w will not be 1.\n\nThis is a trivial shader, and the vertex and fragment shader should each be only one or two lines.  So make an effort of making this as elegant as you can. Consider this Shader Golf.\n\nWhat to submit:\n1) One ZIP archive containing all files you are submitting;\n\t2) Source code, makefile and any data files I need;\n\t3) README with brief instructions on how to use the program;\n\t4) Time it took you to complete the assignment.\n\nDo a \"make clean\" before creating the ZIP file to clean out intermediate files.\n\nMake sure your program unzips in the current folder.\n\nYou may use the CSCIx5239 library, but make sure that you know what each function from that library that you use is doing."
@@ -25,31 +55,171 @@
         "Course": ["CSCI4239", "Advanced Computer Graphics"],
         "Topic": ["OpenGL", "GLSL Shaders"]
       },
-      "content": "Goals for this homework (written 01-18):\nI would like to make a material that reacts when the user mouses over it - like a frosty window that gets more trasparent when moused over, or like drawing in the steam on a mirror. I gotta get the mouse-over working first and then I can work on making it pretty. I also need to do some research on making a believeable glass material, which is hopefully not too tough to do! I'm going to start with the example program this week so that I can make sure I'm getting the lighting right for this first time doing it using shaders, but once I have that working I'll probably see if I can implement the lighting into my homework from last week so that I can get some practice doing it myself.",
-      "images": [
+      "content": [
         {
-          "src": "img/example.jpg",
-          "caption": "Optional caption for the image"
+          "type": "section",
+          "heading": "Goals",
+          "note": "Written 01-18",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "I would like to make a material that reacts when the user mouses over it - like a frosty window that gets more transparent when moused over, or like drawing in the steam on a mirror. I gotta get the mouse-over working first and then I can work on making it pretty."
+            },
+            {
+              "type": "text",
+              "text": "I also need to do some research on making a believable glass material, which is hopefully not too tough to do! I'm going to start with the example program this week so that I can make sure I'm getting the lighting right for this first time doing it using shaders, but once I have that working I'll probably see if I can implement the lighting into my homework from last week so that I can get some practice doing it myself."
+            }
+          ]
         }
       ],
       "assignmentDetails": "Create a program that allows a scene to be viewed in 3D from any direction under user control.\n\nThe objects in the scene should be colored using a procedural texture shader. You may not use the wave, brick or mandlebrot shaders shown in class.  If you use a shader from the text or the web, you should improve it.\n\nThis is your first real shader and is an opportunity to explore a few of the features of GLSL.  Appendix C in the text describes the builtin functions which provides useful manipulations.\n\nYour scene should be lit.  You may reuse the phong() function from the Example 2 vertex shader, but improvements are always encouraged.\n\nThe resulting shader may be only a few lines long, so make sure you can justify and explain every line\n\nWhat to submit:\n1) One ZIP archive containing all files you are submitting;\n2) Source code, makefile and any data files I need;\n3) README with brief instructions on how to use the program;\n4) Time it took you to complete the assignment.\n\nRemember to clean up your code and use good software engineering practices.  If you start with my example code, clean out the example shaders.\n\nIn your shader, make sure you can justify and explain every statement."
     },
     {
-      "id": "ATLS3300-2025-01-17-Test",
-      "title": "ATLS3300 Test Post",
-      "date": "2025-01-17",
+      "id": "ATLS3300-2025-01-26-Lab-01",
+      "title": "ATLS3300 Lab 1: All Wired Up",
+      "date": "2025-01-26",
       "tags": {
         "Course": ["ATLS3300", "Object"],
-        "Topic": ["Arduino", "Physical Computing"]
+        "Topic": ["Circuits"]
       },
-      "content": "Test post to ensure filtering is working correctly.",
-      "images": [
+      "content": [
         {
-          "src": "img/example.jpg",
-          "caption": "Optional caption for the image"
+          "type": "section",
+          "heading": "Description",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "This lab is an introduction to electronics and simple circuits. Using components from the <a href=\"https://www.amazon.com/ELEGOO-Project-Tutorial-Controller-Projects/dp/B01D8KOZF4\" target=\"_blank\" rel=\"noopener noreferrer\">ELEGOO UNO Starter Kit</a>, we will build a simple circuit that lights up an LED when a button is pressed."
+            },
+            {
+              "type": "text",
+              "text": "Materials Used:\n- Multimeter\n- Power Supply Module\n- Momentary Push Button\n- 830 Tie-Points Breadboard\n- Jumper Wires\n- 9V Battery with Snap-On Connector\n- Resistors\n- LEDs"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 1: Setting Up Power",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "We set up the power for our circuit using a 9V battery with a snap-on connector. The connector allows us to hook our battery up to the power supply module using a barrel jack input. The power supply module is a voltage regulator that can convert the 9V to 5V and 3.3V, this allows us to power our LED using lower voltage through the power supply output pins. The power supply connects to the breadboard and once we've connected the battery we can measure the voltage coming through each side of the power supply in order to double check that it is properly converting from 9V. We had to get a few extra hands involved to measure this properly and also take a picture, it was a pretty fiddly process!"
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images": [
+                {
+                  "src": "img/atls3300/lab01_3v_measure.JPG",
+                  "caption": "Measuring the 3.3V side with a multimeter"
+                },
+                {
+                  "src": "img/atls3300/lab01_5v_measure.JPG",
+                  "caption": "Measuring the 5V side with a multimeter"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 2: (Not) Blowing Up an LED",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Connecting the LED directly to 5V or 3.3V without a resistor would likely blow out the LED due to too much current flowing through it. In order to prevent this we calculate what value resistor we need using Ohm's Law. We need to calculate R and know V and I -> R = 3.3V/30mA = 110 Ohms. We don't have 110 Ohm resistors so used 100 instead. Our LEDs have a max current rating of 40mA and we will have a current of about 33mA with the 100 Ohm resistor."
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images": [
+                {
+                  "src": "img/atls3300/lab01_3v_schematic.png",
+                  "caption": "3.3V LED circuit schematic",
+                  "size": "small"
+                },
+                {
+                  "src": "img/atls3300/lab01_3v_circuit.JPG",
+                  "caption": "Working 3.3V LED circuit on breadboard"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "If we wanted to use the 5V side instead we would need a larger resistor -> R = 5V/30mA = 166 Ohms. I don't have a 166 Ohm resistor so am instead using 220, this will reduce the current to about 23mA which is still in the 20-35mA range given in the lab instructions."
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images": [
+                {
+                  "src": "img/atls3300/lab01_5v_circuit.JPG",
+                  "caption": "Working 5V LED circuit on breadboard"
+                },
+                {
+                  "src": "img/atls3300/lab01_5v_schematic.png",
+                  "caption": "5V LED circuit schematic",
+                  "size": "small"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 3: Switching the LED",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "In this section of the lab we added a single-pole, single-throw (SPST) momentary push button to the circuit in order to control the LED turning on and off. The LED only turns on when the button is pressed, and turns off when it's released."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab01_switch_on_schematic.png",
+              "caption": "Schematic for the circuit with the\nSPST push button",
+              "size": "small"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab01_switch_on.MOV",
+              "caption": "Video of the button turning the LED on",
+              "size": "medium"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 4: Extra Volt",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "The extra credit section of this lab asked us to redesign the circuit to make the LED turn off instead of on when the button is pressed. In order to do this I put the LED before the button, with its cathode connected to ground. When the button is not pressed the circuit is complete and the LED lights up, but when the button is pressed it redirects the current through the button instead and turns the LED off. This demonstrates an XOR gate, where the LED is on when the button is not pressed and off when it is. I had fun solving this but also it was really frustrating because I was being dumb and kept trying to put the button before the LED."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab01_switch_off_schematic.png",
+              "caption": "Schematic for the extra credit circuit",
+              "size": "small"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab01_switch_off.MOV",
+              "caption": "Video of the button turning the LED off",
+              "size": "medium"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Problems Faced & Conclusion",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "I didn't have any real problems through this lab. Mostly it felt like just getting used to the flow of this course and learning how to check for common circuit errors. I enjoyed wiring this stuff up and I'm excited to build more on this lab. It sorta feels like when I first started programming and you make silly mistakes on toy problems, but experiencing that helps you spot simple bugs later on."
+            }
+          ]
         }
-      ],
-      "assignmentDetails": "This is where Canvas assignment details would go."
+      ]
     }
   ]
 }

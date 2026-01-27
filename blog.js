@@ -43,11 +43,9 @@ class BlogManager {
     filterByTag(tag) {
         if (tag === 'all') return this.posts;
         return this.posts.filter(post => {
-            // Handle both old format (array) and new format (object with categories)
             if (Array.isArray(post.tags)) {
                 return post.tags.some(t => t.toLowerCase() === tag.toLowerCase());
             } else {
-                // Check all categories
                 return Object.values(post.tags).some(categoryTags =>
                     categoryTags.some(t => t.toLowerCase() === tag.toLowerCase())
                 );
@@ -59,11 +57,9 @@ class BlogManager {
     getAllTags() {
         const tags = new Set();
         this.posts.forEach(post => {
-            // Handle both old format (array) and new format (object with categories)
             if (Array.isArray(post.tags)) {
                 post.tags.forEach(tag => tags.add(tag));
             } else {
-                // Flatten categorized tags
                 Object.values(post.tags).forEach(categoryTags => {
                     categoryTags.forEach(tag => tags.add(tag));
                 });
@@ -86,7 +82,6 @@ class BlogManager {
             }
         });
         
-        // Convert Sets to sorted arrays
         for (let category in categories) {
             categories[category] = Array.from(categories[category]).sort();
         }
@@ -96,12 +91,188 @@ class BlogManager {
 
     // Format date for display
     formatDate(dateString) {
-        const date = new Date(dateString);
+        // Parse as local time by splitting the date string
+        // This avoids timezone offset issues with ISO date strings
+        const [year, month, day] = dateString.split('-').map(Number);
+        const date = new Date(year, month - 1, day); // month is 0-indexed
         return date.toLocaleDateString('en-US', { 
             year: 'numeric', 
             month: 'long', 
             day: 'numeric' 
         });
+    }
+
+    // Render a content block
+    renderBlock(block) {
+        switch (block.type) {
+            case 'text':
+                // Support line breaks within text blocks
+                const paragraphs = block.text.split('\n\n');
+                return paragraphs.map(para => 
+                    `<p>${para.replace(/\n/g, '<br>')}</p>`
+                ).join('');
+
+            case 'image':
+                const sizeClass = block.size ? `image-${block.size}` : '';
+                return `
+                    <figure class="post-image ${sizeClass}">
+                        <img src="${block.src}" alt="${block.caption || 'Image'}">
+                        ${block.caption ? `<figcaption>${block.caption}</figcaption>` : ''}
+                    </figure>
+                `;
+
+            case 'images':
+                const layoutClass = block.layout === 'side-by-side' ? 'images-side-by-side' : 
+                                   block.layout === 'grid' ? 'images-grid' : 'images-stack';
+                const containerSizeClass = block.size ? `images-${block.size}` : '';
+                return `
+                    <div class="post-images ${layoutClass} ${containerSizeClass}">
+                        ${block.images.map(img => {
+                            const imgSizeClass = img.size ? `image-${img.size}` : '';
+                            return `
+                                <figure class="post-image ${imgSizeClass}">
+                                    <img src="${img.src}" alt="${img.caption || 'Image'}">
+                                    ${img.caption ? `<figcaption>${img.caption}</figcaption>` : ''}
+                                </figure>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+
+            case 'video':
+                const videoSizeClass = block.size ? `video-${block.size}` : '';
+                if (block.youtube) {
+                    return `
+                        <div class="post-video ${videoSizeClass}">
+                            <iframe 
+                                src="https://www.youtube.com/embed/${block.youtube}" 
+                                frameborder="0" 
+                                allowfullscreen>
+                            </iframe>
+                            ${block.caption ? `<p class="video-caption">${block.caption}</p>` : ''}
+                        </div>
+                    `;
+                } else if (block.src) {
+                    return `
+                        <div class="post-video ${videoSizeClass}">
+                            <video controls muted>
+                                <source src="${block.src}" type="video/mp4">
+                                Your browser does not support video.
+                            </video>
+                            ${block.caption ? `<p class="video-caption">${block.caption}</p>` : ''}
+                        </div>
+                    `;
+                }
+                case 'media-row':
+                    const rowSizeClass = block.size ? `media-row-${block.size}` : '';
+                    return `
+                        <div class="post-media-row ${rowSizeClass}">
+                            ${block.items.map(item => {
+                                const itemSizeClass = item.size ? `media-item-${item.size}` : '';
+                                if (item.type === 'image') {
+                                    return `
+                                        <figure class="media-item media-image ${itemSizeClass}">
+                                            <img src="${item.src}" alt="${item.caption || 'Image'}">
+                                            ${item.caption ? `<figcaption>${item.caption}</figcaption>` : ''}
+                                        </figure>
+                                    `;
+                                } else if (item.type === 'video') {
+                                    return `
+                                        <figure class="media-item media-video ${itemSizeClass}">
+                                            <video controls ${item.muted ? 'muted' : ''}>
+                                                <source src="${item.src}" type="video/mp4">
+                                            </video>
+                                            ${item.caption ? `<figcaption>${item.caption}</figcaption>` : ''}
+                                        </figure>
+                                    `;
+                                }
+                                return '';
+                            }).join('')}
+                        </div>
+                    `;
+                return '';
+
+            case 'code':
+                const escapedCode = block.code
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+                return `
+                    <div class="post-code">
+                        ${block.language ? `<span class="code-language">${block.language}</span>` : ''}
+                        <pre><code class="language-${block.language || 'plaintext'}">${escapedCode}</code></pre>
+                        ${block.caption ? `<p class="code-caption">${block.caption}</p>` : ''}
+                    </div>
+                `;
+
+            case 'gist':
+                return `
+                    <div class="post-gist">
+                        <script src="https://gist.github.com/${block.gistId}.js"></script>
+                        ${block.caption ? `<p class="gist-caption">${block.caption}</p>` : ''}
+                    </div>
+                `;
+
+            case 'link':
+                return `
+                    <p class="post-link">
+                        <a href="${block.url}" target="_blank" rel="noopener noreferrer">${block.text || block.url}</a>
+                    </p>
+                `;
+
+            case 'callout':
+                const calloutType = block.style || 'info'; // info, warning, success, note
+                return `
+                    <div class="post-callout callout-${calloutType}">
+                        ${block.title ? `<strong class="callout-title">${block.title}</strong>` : ''}
+                        <p>${block.text}</p>
+                    </div>
+                `;
+
+            default:
+                return '';
+        }
+    }
+
+    // Render a section with heading and blocks
+    renderSection(section) {
+        const noteHtml = section.note ? `<span class="section-note">${section.note}</span>` : '';
+        const headingHtml = section.heading ? 
+            `<h3 class="section-heading">${section.heading}${noteHtml}</h3>` : '';
+        
+        const blocksHtml = section.blocks ? 
+            section.blocks.map(block => this.renderBlock(block)).join('') : '';
+
+        return `
+            <section class="post-section">
+                ${headingHtml}
+                ${blocksHtml}
+            </section>
+        `;
+    }
+
+    // Render content - handles both old string format and new structured format
+    renderContent(content) {
+        // New structured format (array of sections)
+        if (Array.isArray(content)) {
+            return content.map(section => {
+                if (section.type === 'section') {
+                    return this.renderSection(section);
+                }
+                // If it's just a block without section wrapper
+                return this.renderBlock(section);
+            }).join('');
+        }
+        
+        // Old string format (backwards compatibility)
+        if (typeof content === 'string') {
+            return content
+                .split('\n\n')
+                .map(para => `<p>${para.replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        return '';
     }
 
     // Render a single blog post
@@ -111,7 +282,11 @@ class BlogManager {
             ? post.tags 
             : Object.values(post.tags).flat();
         
-        const imagesHtml = post.images && post.images.length > 0
+        // Render content using new structured format
+        const contentHtml = this.renderContent(post.content);
+        
+        // Legacy images support (for old format posts)
+        const legacyImagesHtml = post.images && !Array.isArray(post.content)
             ? `<div class="post-images">
                 ${post.images.map(img => `
                     <figure class="post-image">
@@ -121,12 +296,6 @@ class BlogManager {
                 `).join('')}
                </div>`
             : '';
-
-        // Convert line breaks to paragraphs
-        const contentHtml = post.content
-            .split('\n\n')
-            .map(para => `<p>${para.replace(/\n/g, '<br>')}</p>`)
-            .join('');
         
         const assignmentHtml = post.assignmentDetails
             ? `<div class="assignment-details">
@@ -154,7 +323,7 @@ class BlogManager {
                 </header>
                 <div class="post-content">
                     ${contentHtml}
-                    ${imagesHtml}
+                    ${legacyImagesHtml}
                     ${assignmentHtml}
                 </div>
             </article>

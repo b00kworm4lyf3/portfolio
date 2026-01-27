@@ -240,34 +240,44 @@
     margin-bottom: 0;
 }
 
-.post-content a {
-    color: #39ff14;
-    text-decoration: none;
-    position: relative;
-    transition: all 0.3s ease;
-    border-bottom: 1px solid rgba(57, 255, 20, 0.3);
+/* ==================== */
+/* Section Styles       */
+/* ==================== */
+
+.post-section {
+    margin-bottom: 2rem;
 }
 
-.post-content a:hover {
-    color: #00ff80;
-    border-bottom-color: rgba(0, 255, 128, 0.6);
+.post-section:last-child {
+    margin-bottom: 0;
 }
 
-.post-content a:visited {
-    color: #00ff80;
-    border-bottom-color: rgba(0, 255, 128, 0.3);
+.section-heading {
+    color: #f8fafc;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(57, 255, 20, 0.2);
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 }
 
-/* Post Images */
-.post-images {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
+.section-note {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #94a3b8;
+    font-style: italic;
 }
+
+/* ==================== */
+/* Image Block Styles   */
+/* ==================== */
 
 .post-image {
-    margin: 0;
+    margin: 1.5rem 0;
 }
 
 .post-image img {
@@ -287,9 +297,305 @@
     font-size: 0.9rem;
     font-style: italic;
     text-align: center;
+    white-space: pre-line;
 }
 
-/* Filter Buttons */
+/* Single image size variants */
+.post-image.image-small {
+    max-width: 300px;
+}
+
+.post-image.image-medium {
+    max-width: 500px;
+}
+
+.post-image.image-large {
+    max-width: 100%;
+}
+
+/* Centered single images when sized */
+.post-image.image-small,
+.post-image.image-medium {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Multiple images container */
+.post-images {
+    margin: 1.5rem 0;
+}
+
+/* Side by side layout */
+.post-images.images-side-by-side {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+/* Center images within their grid cells */
+.post-images.images-side-by-side .post-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Grid layout (for 3+ images) */
+.post-images.images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.post-images.images-grid .post-image {
+    margin: 0;
+}
+
+/* Stacked layout (default) */
+.post-images.images-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.post-images.images-stack .post-image {
+    margin: 0;
+}
+
+/* Size variants for images container */
+.post-images.images-small {
+    max-width: 400px;
+}
+
+.post-images.images-medium {
+    max-width: 600px;
+}
+
+.post-images.images-small,
+.post-images.images-medium {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Individual image sizes within a group */
+.post-images .post-image.image-small img {
+    max-width: 200px;
+}
+
+.post-images .post-image.image-medium img {
+    max-width: 350px;
+}
+
+/* ==================== */
+/* Video Block Styles   */
+/* ==================== */
+
+.post-video {
+    margin: 1.5rem 0;
+}
+
+.post-video iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.post-video video {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Video size variants */
+.post-video.video-small {
+    max-width: 300px;
+}
+
+.post-video.video-medium {
+    max-width: 500px;
+}
+
+.post-video.video-small,
+.post-video.video-medium {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.video-caption {
+    margin-top: 0.5rem;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    font-style: italic;
+    text-align: center;
+    white-space: pre-line;
+}
+
+/* ==================== */
+/* Code Block Styles    */
+/* ==================== */
+
+.post-code {
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.code-language {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(57, 255, 20, 0.1);
+    color: #39ff14;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0 8px 0 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.post-code pre {
+    background: #1a1a1a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin: 0;
+}
+
+.post-code code {
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #e2e8f0;
+}
+
+.code-caption {
+    margin-top: 0.5rem;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-style: italic;
+    text-align: center;
+}
+
+/* ==================== */
+/* Gist Embed Styles    */
+/* ==================== */
+
+.post-gist {
+    margin: 1.5rem 0;
+}
+
+.post-gist .gist {
+    background: transparent !important;
+}
+
+.post-gist .gist .gist-file {
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+}
+
+.post-gist .gist .gist-data {
+    background: #1a1a1a !important;
+    border: none !important;
+}
+
+.post-gist .gist .gist-meta {
+    background: #2a2a2a !important;
+    color: #94a3b8 !important;
+}
+
+.post-gist .gist .gist-meta a {
+    color: #39ff14 !important;
+}
+
+.gist-caption {
+    margin-top: 0.5rem;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-style: italic;
+    text-align: center;
+}
+
+/* ==================== */
+/* Link Block Styles    */
+/* ==================== */
+
+.post-link {
+    margin: 1rem 0;
+}
+
+a, .post-link a {
+    color: #39ff14;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(57, 255, 20, 0.3);
+    transition: all 0.3s ease;
+}
+
+a:hover, .post-link a:hover {
+    border-bottom-color: #39ff14;
+}
+
+/* ==================== */
+/* Callout Block Styles */
+/* ==================== */
+
+.post-callout {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+.post-callout p {
+    margin: 0;
+}
+
+.callout-title {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.callout-info {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: #3b82f6;
+}
+
+.callout-info .callout-title {
+    color: #3b82f6;
+}
+
+.callout-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: #f59e0b;
+}
+
+.callout-warning .callout-title {
+    color: #f59e0b;
+}
+
+.callout-success {
+    background: rgba(57, 255, 20, 0.1);
+    border-color: #39ff14;
+}
+
+.callout-success .callout-title {
+    color: #39ff14;
+}
+
+.callout-note {
+    background: rgba(148, 163, 184, 0.1);
+    border-color: #94a3b8;
+}
+
+.callout-note .callout-title {
+    color: #f8fafc;
+}
+
+/* ==================== */
+/* Filter Buttons       */
+/* ==================== */
+
 .filter-btn {
     background: #2a2a2a;
     border: 1px solid rgba(255,255,255,0.1);
@@ -345,9 +651,12 @@
     font-style: italic;
 }
 
-/* Assignment Details Dropdown */
+/* ==================== */
+/* Assignment Details   */
+/* ==================== */
+
 .assignment-details {
-    margin-bottom: 1.5rem;
+    margin-top: 2rem;
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 8px;
     overflow: hidden;
@@ -391,8 +700,9 @@
 }
 
 .assignment-details.open .assignment-content {
-    max-height: 500px;
+    max-height: 1000px;
     padding: 1rem;
+    overflow-y: auto;
 }
 
 .assignment-content p {
@@ -403,7 +713,10 @@
     margin: 0;
 }
 
-/* Responsive */
+/* ==================== */
+/* Responsive Styles    */
+/* ==================== */
+
 @media (max-width: 768px) {
     .blog-controls {
         flex-direction: column;
@@ -431,7 +744,17 @@
         align-items: flex-start;
     }
 
-    .post-images {
+    /* Stack side-by-side images on mobile */
+    .post-images.images-side-by-side {
         grid-template-columns: 1fr;
+    }
+
+    .post-images.images-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading {
+        flex-direction: column;
+        gap: 0.25rem;
     }
 }
