@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sage Brielle - Reefcraft Water & Fish Shaders</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="portfolio.css">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Sage Brielle</a>
+            <div class="nav-links">
+                <a href="work.html">Work</a>
+                <a href="about.html">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="project-page">
+        <div class="project-hero">
+            <img src="img/reefcraft_school_screenshot.png" alt="Fish school in Reefcraft visualization">
+        </div>
+        
+        <div class="container">
+            <article class="project-content">
+                <header class="project-header">
+                    <h1>Reefcraft Water & Fish Shaders</h1>
+                    <div class="project-meta">
+                        <div class="tags">
+                            <span class="tag">WGSL</span>
+                            <span class="tag">Shaders</span>
+                            <span class="tag">GPU Programming</span>
+                            <span class="tag">Python</span>
+                        </div>
+                        <time>Summer 2025</time>
+                    </div>
+                </header>
+
+                <section class="project-overview">
+                    <h2>Overview</h2>
+                    <p>
+                        As part of my technical art internship on the Reefcraft coral visualization project, 
+                        I developed custom WGSL point sprite shaders for visualizing water flow and animating 
+                        schools of fish. Starting from pygfx's existing point material pipeline, I extended 
+                        and modified the shaders to create two visual effects: glowing particles 
+                        that drift along the currents, and fish-shaped sprites that orient themselves 
+                        into them.
+                    </p>
+                    <p>
+                        This was my first time working with real-time shaders in a production context, and 
+                        I learned a lot about adapting existing graphics code, working with signed distance 
+                        functions, and the iteration process of getting visual effects to feel right.
+                    </p>
+                </section>
+
+                <section class="project-gallery">
+                    <h2>Gallery</h2>
+                    <div class="gallery-grid">
+                        <div>
+                            <img src="img/reefcraft_school_screenshot.png" alt="School of fish facing into current">
+                            <img src="img/reefcraft_glow_screenshot.png" alt="Glowing water particles">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="project-process">
+                    <h2>Development Process</h2>
+                    
+                    <div class="process-step">
+                        <h3>Starting Point: pygfx Point Sprites</h3>
+                        <p>
+                            Both shaders began as modifications of pygfx's PointsMaterial pipeline. The existing 
+                            code handled the vertex shader setup for billboard quads, size calculations across 
+                            different coordinate spaces, and the binding infrastructure for passing data to the GPU. 
+                            I kept this foundation and focused my work on the fragment shader, where the actual 
+                            visual appearance is determined.
+                        </p>
+                    </div>
+
+                    <div class="process-step">
+                        <h3>Glow Shader: Shaped Gaussian</h3>
+                        <p>
+                            For the water particles, I wanted to try to make something a bit more interesting than the points I could make using the default points material, so went with this diamond shaped gow effect:
+                        </p>
+                        <pre><code>var new_x = x * (1.0 - abs(y) * 0.1);
+var new_y = y * (1.0 + abs(x) * 0.1);
+let new_d = length(vec2<f32>(new_x, new_y));
+let t = new_d / sigma_p;
+face_alpha = exp(-0.5 * t * t);</code></pre>
+                        <p>
+                            This ended up being a fun experiment, but I was running into some issues getting the particles to flicker or animate as my understanding of uniforms was pretty limited. The project leader also ultimately wanted the school of fish, so I pivoted to that shader without pursuing this one further.
+                        </p>
+                    </div>
+
+                    <div class="process-step">
+                        <h3>Fish Shader: Custom SDF & Billboard Orientation</h3>
+                        <p>
+                            The fish shader required more substantial changes. For the shape, I wrote a signed 
+                            distance function that combines an ellipse (body) with an isosceles triangle (tail) 
+                            using a smooth union operation:
+                        </p>
+                        <pre><code>// Body ellipse
+let d_body = sdEllipse(uv - body_center, vec2<f32>(0.40, 0.15));
+
+// Tail triangle with arched base
+let d_tail = sdIsoTriArched(p_tail, half_w, h, arch_amount);
+
+// Smooth blend
+var fish_d = opSmoothUnion(d_body, d_tail, smooth_k);</code></pre>
+                        <p>
+                            The trickier part was making the fish face into the current. I modified the vertex 
+                            shader to read a per-vertex yaw angle (calculated on the CPU from the velocity field) 
+                            and orient the billboard quad in world space rather than always facing the camera:
+                        </p>
+                        <pre><code>// Local world axes from yaw
+let right = vec3<f32>(cos(yaw), 0.0, -sin(yaw));
+let forward = vec3<f32>(sin(yaw), 0.0, cos(yaw));
+
+// Tilt quad upward so it's not flat
+let fwd_tilt = normalize(forward * cos(pitch) + vec3<f32>(0.0, 1.0, 0.0) * sin(pitch));
+
+// Place vertex in world space
+let world_p = pos_w.xyz + right * dx_world + fwd_tilt * dy_world;</code></pre>
+                        <p>
+                            I also added a subtle outer glow effect to make the fish read better against the 
+                            underwater environment.
+                        </p>
+                    </div>
+
+                    <div class="process-step">
+                        <h3>CPU-Side Animation</h3>
+                        <p>
+                            The shaders work in tandem with Python code using NVIDIA Warp for GPU-accelerated 
+                            particle advection and fish schooling behavior. The fish sample the velocity field 
+                            at their position, turn toward upstream, and drift forward and back in sync to 
+                            simulate schooling movement. The CPU code calculates positions and yaw angles each 
+                            frame, then syncs them to the GPU buffers that the shaders read.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="project-tech">
+                    <h2>Technical Details</h2>
+                    <ul class="tech-list">
+                        <li>
+                            <h3>Tech Stack</h3>
+                            <p>WGSL shaders, Python, pygfx/wgpu (WebGPU for Python), NVIDIA Warp</p>
+                        </li>
+                        <li>
+                            <h3>What I Built vs. Modified</h3>
+                            <p>
+                                <strong>Built from scratch:</strong> Fish SDF (ellipse + triangle blend), 
+                                per-vertex billboard orientation, glow coordinate warping, 
+                                smooth union helper functions, CPU-side schooling behavior.
+                            </p>
+                            <p>
+                                <strong>Modified/extended:</strong> pygfx point material vertex shader 
+                                (added world-space orientation), fragment shader structure (replaced shape 
+                                rendering), Python material classes (added rotation_mode support).
+                            </p>
+                        </li>
+                        <li>
+                            <h3>Challenges & Lessons</h3>
+                            <p>
+                                Getting the fish to face the right direction took several iterations—I kept 
+                                getting them 90° off or flipping unexpectedly. I learned to think carefully 
+                                about coordinate system conventions and to add debug visualization early. 
+                                The SDF work taught me how powerful smooth unions are for creating organic shapes 
+                                from simple primitives.
+                            </p>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="project-links">
+                    <h2>Code Samples</h2>
+                    <p>
+                        The full source for these shaders and the associated Python classes are available 
+                        on GitHub as part of the Reefcraft project. Key files:
+                    </p>
+                    <ul>
+                        <li><code>fish.wgsl</code> – Fish-shaped point sprite shader</li>
+                        <li><code>glow.wgsl</code> – Glowing particle shader</li>
+                        <li><code>fish_shader.py</code> – Python material class for fish</li>
+                        <li><code>school.py</code> – GPU-accelerated schooling behavior</li>
+                        <li><code>water.py</code> – Particle advection system</li>
+                    </ul>
+                    <!-- Add your actual repo link -->
+                    <a href="https://github.com/TheReefcraftProject/reefcraft" class="project-link">View on GitHub</a>
+                </section>
+
+            </article>
+        </div>
+    </main>
+</body>
+</html>
