@@ -70,6 +70,22 @@
               "text": "I also need to do some research on making a believable glass material, which is hopefully not too tough to do! I'm going to start with the example program this week so that I can make sure I'm getting the lighting right for this first time doing it using shaders, but once I have that working I'll probably see if I can implement the lighting into my homework from last week so that I can get some practice doing it myself."
             }
           ]
+        },
+        {
+          "type": "section",
+          "heading": "Reflection",
+          "note": "Written 01-21",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "My original goal with this homework was to make a foggy glass shader that you could clear by clicking and dragging. After doing a bit of research though I determined that doing something as realistic as I wanted fell far outside anything we've covered so far and also probably wouldn't count as a texture so much as an effect. So I pared the idea down a bit and decided to start with making something glass-like (the basic transparent fresnel shader) and then build textures off that. I read about how to implement fresnel and Schlick's approximation on graphicscompendium.com and a few random blogs, though my first implementation didn't work with transparency because I had used max(dot(N, V), 0.0) instead of abs(dot(N,V)) and I was getting an overwhelming glow from all the back faces! Once I fixed that I decided I wanted to try to keep with my foggy/clear glass idea but lower fidelity then I had originally planned. I copied my basic fresnel and made a new one that used a noise texture generated from noise.c to look foggy and then passed in xy mouse coords when the mouse is clicked. Using those coords I calculated a small area to clear the noise from n_n I spent a while tweaking all the params to make it look perfect and I'm pretty happy with it! I think it could definitely be improved, I would love to build it out more to be able to be drawn on and then have the fog slowly come back in. Finally, I wanted to mess with my star particles from last week seeing as they were calculated almost completely in the frag shader and I thought it would be fun to reimplement them as a texture. I added some animation to them so I could try that out and built a bit on the fresnel effect to also have the edges lit because they looked kinda empty just blue. Overall I spent way too much time on this, probably like 15 hours at least (I gotta get better at remembering to time this stuff), but a lot of that was debugging silly mistakes born out of inexperience with this kind of work. Like I spent HOURS trying to figure out why my fresnel was just totally glowing all over and ended up having the epiphany that I had made that silly math mistake half asleep the next morning. Solving the problems I have made for myself though is pretty addicting, so really I spent so much time on this because I was having fun trying to implement all my silly ideas n_n"
+            },
+            {
+              "type": "link",
+              "url": "https://github.com/b00kworm4lyf3/CSCI4239-hw2-procedTex",
+              "text": "Link to GitHub Repo"
+            }
+          ]
         }
       ],
       "assignmentDetails": "Create a program that allows a scene to be viewed in 3D from any direction under user control.\n\nThe objects in the scene should be colored using a procedural texture shader. You may not use the wave, brick or mandlebrot shaders shown in class.  If you use a shader from the text or the web, you should improve it.\n\nThis is your first real shader and is an opportunity to explore a few of the features of GLSL.  Appendix C in the text describes the builtin functions which provides useful manipulations.\n\nYour scene should be lit.  You may reuse the phong() function from the Example 2 vertex shader, but improvements are always encouraged.\n\nThe resulting shader may be only a few lines long, so make sure you can justify and explain every line\n\nWhat to submit:\n1) One ZIP archive containing all files you are submitting;\n2) Source code, makefile and any data files I need;\n3) README with brief instructions on how to use the program;\n4) Time it took you to complete the assignment.\n\nRemember to clean up your code and use good software engineering practices.  If you start with my example code, clean out the example shaders.\n\nIn your shader, make sure you can justify and explain every statement."
@@ -220,6 +236,40 @@
           ]
         }
       ]
+    },
+    {
+      "id": "CSCI4239-2025-01-27-Homework-03",
+      "title": "CSCI4239 Homework 3: Performance",
+      "date": "2025-01-27",
+      "tags": {
+        "Course": ["CSCI4239", "Advanced Computer Graphics"],
+        "Topic": ["OpenGL", "GLSL Shaders", "Performance"]
+      },
+      "content": [
+        {
+          "type": "section",
+          "heading": "Goals",
+          "note": "Written 01-27",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "I've been putting off this assignment because I just haven't been sure about what I want to do for it. It's less flashy or exciting that the other assignments so far and after our discussions in class about how we'll probably be disappointed in our efforts to tank performance I wasn't super motivated to start. I'm going to start with updating the phong shading to use built-in functions max and step in order to get rid of the two if statements we have in there. I'm not sure if that'll do anything for our FPS, but I am interested in seeing if it does. I'm also going to try to make something with excessive branching and see if I can get that to tank performance, looking at ints vs floats or builtin functions vs explicit calculations seems less interesting to me past making the phong function a little more efficient. I'm going to rewrite my foggy glass shader from last week so that I can break something that already works rather than needing to work from scratch. I'll also make my scene more complex with lots of objects so that I can get a more measurable performance difference."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reflection",
+          "note": "Written 01-28",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "Strangely enough the updated phong shading that used max and step instead of if statements dropped my FPS by about 40 (from ~640 to ~600 when drawing 10 cubes). I think this is because the original branching version actually cuts out a bunch of calculations when the surface is facing away from the light while this new version does all of them every time. So I guess in this case the branching was actually helping us be more efficient."
+            }
+          ]
+        }
+      ],
+      "assignmentDetails": "Investigate the performance of different elements of GLSL. Examples of things you may investigate is float vs. int, performance of constructs like if, select, builtin functions vs. explicit calculation, the cost of transcendental functions, inline code vs. function calls, performance differences between different video cards or operating systems, etc.\n\nWhat the program should do is left to your imagination.  The scene could involve lighting, textures, and similar features, but the assignment is to investigate performance of different ways of doing things.\n\nExample 4 contains code to calculate frames per second, which measures the overall performance.  Make sure you disable VSYNC so that this measures to true frame rate.\n\nWhat to submit:\n1) README with discussion of results and brief instructions on how to use the program;\n2) One ZIP archive containing all files you are submitting;\n3) Source code, makefile and any data files I need;\n4) Time it took you to complete the assignment."
     }
   ]
 }
