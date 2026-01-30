@@ -94,7 +94,7 @@
         "Type": ["XR"],
         "Tech": ["Unity", "Mozilla Hubs"]
       },
-      "featured": true,
+      "featured": false,
       "overview": "Lonely Night is an ongoing project that I started in Mozilla Hubs and later ported in to Unity. Based on a dream I had, it is a VR space that is meant to evoke a sense of loneliness and longing through the imagery of an ongoing party that is impossible to interact with.",
       "gallery": [
         {
@@ -175,6 +175,41 @@
         {
           "title": "Research & Planning",
           "content": ""
+        }
+      ]
+    },
+    {
+      "id": "reefcraft-shaders",
+      "title": "Reefcraft Water & Fish Shaders",
+      "slug": "reefcraftShaders",
+      "thumbnail": "img/reefcraft_school_screenshot.png",
+      "hero": "img/reefcraft_school_screenshot.png",
+      "shortDescription": "Custom WGSL shaders for water flow and fish schooling visualization.",
+      "date": "Summer 2025",
+      "tags": {
+        "Type": ["Shaders"],
+        "Tech": ["WGSL", "Python"]
+      },
+      "featured": true,
+      "overview": "As part of my technical art internship on the Reefcraft coral visualization project, I developed custom WGSL point sprite shaders for visualizing water flow and animating schools of fish. Starting from pygfx's existing point material pipeline, I extended and modified the shaders to create two visual effects: glowing particles that drift along the currents, and fish-shaped sprites that orient themselves into them.",
+      "gallery": [
+        {
+          "src": "img/reefcraft_school_screenshot.png",
+          "alt": "School of fish facing into current"
+        },
+        {
+          "src": "img/reefcraft_glow_screenshot.png",
+          "alt": "Glowing water particles"
+        }
+      ],
+      "process": [
+        {
+          "title": "Starting Point: pygfx Point Sprites",
+          "content": "Both shaders began as modifications of pygfx's PointsMaterial pipeline. The existing code handled the vertex shader setup for billboard quads, size calculations across different coordinate spaces, and the binding infrastructure for passing data to the GPU. I kept this foundation and focused my work on the fragment shader."
+        },
+        {
+          "title": "Fish Shader: Custom SDF & Billboard Orientation",
+          "content": "The fish shader required more substantial changes. For the shape, I wrote a signed distance function that combines an ellipse (body) with an isosceles triangle (tail) using a smooth union operation. The trickier part was making the fish face into the current by modifying the vertex shader to read a per-vertex yaw angle and orient the billboard quad in world space."
         }
       ]
     }
