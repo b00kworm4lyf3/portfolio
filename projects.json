@@ -143,7 +143,7 @@
         "Type": ["Beauty", "Makeup", "Character Design"],
         "Tech": []
       },
-      "featured": true,
+      "featured": false,
       "overview": "I created this makeup as the final project for the hair and beauty section of the Master Makeup Artist program at The Art of Makeup in Portland, Oregon. The project was to create a character that could evolve halfway through the photoshoot, so we would end up with photos of a distinct character with a story that had been told through two different makeup looks. I came up with the idea of a doll that started loved and glowing, and then ended up broken, dirty, and abandoned in a pile of other dolls.",
       "gallery": [
         {
