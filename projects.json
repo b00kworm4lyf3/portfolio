@@ -1,6 +1,86 @@
 {
   "projects": [
     {
+      "id": "coral-reef-opengl",
+      "title": "Procedural Coral Reef",
+      "slug": "coralReef",
+      "thumbnail": "img/coralReef/closeUp1.png",
+      "hero": "img/coralReef/overview.png",
+      "shortDescription": "Real-time OpenGL coral reef environment.",
+      "date": "December 2025",
+      "tags": {
+        "Type": [
+          "Graphics"
+        ],
+        "Tech": [
+          "C++",
+          "OpenGL",
+          "GLSL"
+        ]
+      },
+      "featured": true,
+      "overview": "This project is a real-time coral reef I built to explore procedural geometry, lighting, and atmospheric effects. The coral forms are all generated procedurally using parameterized and recursive geometry, which lets me get a wide range of shapes and movement from a small set of reusable systems. I also built a GPU-based particle system to add depth and life to the water.",
+      "gallery": [
+        {
+          "src": "img/coralReef/overview2.png",
+          "alt": "Full coral reef environment"
+        },
+        {
+          "src": "img/coralReef/closeUp1.png",
+          "alt": "Procedural coral geometry"
+        }
+      ],
+      "process": [
+        {
+          "title": "Procedural Geometry Systems",
+          "content": "I implemented all the coral types as C++ classes that inherit from a shared base, which made it easy to apply consistent transforms, coloring, and texturing across different coral forms. The branching coral uses recursive geometry where the radius and length decay with each iteration—I spent a while tuning those decay values to get branches that felt organic rather than too uniform or too chaotic.\n\nThe brain coral was a fun one to figure out. I started with a spherical mesh and then modified it with layered sinusoidal noise to get those characteristic ridges and folds. For the barrel sponges, I built a parameterized fin system with controls for ripple, taper, and segmentation—being able to tweak those values and instantly see different sponge variations was really satisfying."
+        },
+        {
+          "title": "Lighting, Atmosphere, and Controls",
+          "content": "Getting the underwater atmosphere to feel right took a lot of iteration. I set up a dynamic lighting system with a rotating light source to simulate the sun moving overhead, which helps sell the sense of being underwater with light filtering down from above. I also added a debug lighting mode so I could inspect geometry without the atmospheric effects getting in the way.\n\nThe exponential fog was essential for making the scene feel like it has depth—without it, distant objects looked way too crisp and the scale felt off. I added toggles for fog, particles, and different shading modes so I could quickly compare different configurations while I was developing."
+        },
+        {
+          "title": "GPU Particle System",
+          "content": "I built a custom particle system using VAOs, VBOs, and GLSL shaders to represent suspended matter drifting through the water. Each particle has its own seed value that I use to vary its motion, size, and color over time, which keeps things from looking too repetitive. I went with additive blending and point sprites to get a subtle glow effect—it took some experimentation to find the right balance where the particles add atmosphere without being distracting.\n\nThis was my first time implementing a particle system from scratch at the GPU level, and I learned a lot about how to structure the data to keep things performant even with a large number of particles on screen."
+        }
+      ]
+    },
+    {
+      "id": "reefcraft-shaders",
+      "title": "Reefcraft Water & Fish Shaders",
+      "slug": "reefcraftShaders",
+      "thumbnail": "img/reefcraft_school_screenshot.png",
+      "hero": "img/reefcraft_school_screenshot.png",
+      "shortDescription": "Custom WGSL shaders for water flow and fish schooling visualization.",
+      "date": "Summer 2025",
+      "tags": {
+        "Type": ["Shaders"],
+        "Tech": ["WGSL", "Python"]
+      },
+      "featured": true,
+      "overview": "As part of my technical art internship on the Reefcraft coral visualization project, I developed custom WGSL point sprite shaders for visualizing water flow and animating schools of fish. Starting from pygfx's existing point material pipeline, I extended and modified the shaders to create two visual effects: glowing particles that drift along the currents, and fish-shaped sprites that orient themselves into them.",
+      "gallery": [
+        {
+          "src": "img/reefcraft_school_screenshot.png",
+          "alt": "School of fish facing into current"
+        },
+        {
+          "src": "img/reefcraft_glow_screenshot.png",
+          "alt": "Glowing water particles"
+        }
+      ],
+      "process": [
+        {
+          "title": "Starting Point: pygfx Point Sprites",
+          "content": "Both shaders began as modifications of pygfx's PointsMaterial pipeline. The existing code handled the vertex shader setup for billboard quads, size calculations across different coordinate spaces, and the binding infrastructure for passing data to the GPU. I kept this foundation and focused my work on the fragment shader."
+        },
+        {
+          "title": "Fish Shader: Custom SDF & Billboard Orientation",
+          "content": "The fish shader required more substantial changes. For the shape, I wrote a signed distance function that combines an ellipse (body) with an isosceles triangle (tail) using a smooth union operation. The trickier part was making the fish face into the current by modifying the vertex shader to read a per-vertex yaw angle and orient the billboard quad in world space."
+        }
+      ]
+    },
+    {
       "id": "swamp-witch",
       "title": "Swamp Witch",
       "slug": "swampWitch",
@@ -175,41 +255,6 @@
         {
           "title": "Research & Planning",
           "content": ""
-        }
-      ]
-    },
-    {
-      "id": "reefcraft-shaders",
-      "title": "Reefcraft Water & Fish Shaders",
-      "slug": "reefcraftShaders",
-      "thumbnail": "img/reefcraft_school_screenshot.png",
-      "hero": "img/reefcraft_school_screenshot.png",
-      "shortDescription": "Custom WGSL shaders for water flow and fish schooling visualization.",
-      "date": "Summer 2025",
-      "tags": {
-        "Type": ["Shaders"],
-        "Tech": ["WGSL", "Python"]
-      },
-      "featured": true,
-      "overview": "As part of my technical art internship on the Reefcraft coral visualization project, I developed custom WGSL point sprite shaders for visualizing water flow and animating schools of fish. Starting from pygfx's existing point material pipeline, I extended and modified the shaders to create two visual effects: glowing particles that drift along the currents, and fish-shaped sprites that orient themselves into them.",
-      "gallery": [
-        {
-          "src": "img/reefcraft_school_screenshot.png",
-          "alt": "School of fish facing into current"
-        },
-        {
-          "src": "img/reefcraft_glow_screenshot.png",
-          "alt": "Glowing water particles"
-        }
-      ],
-      "process": [
-        {
-          "title": "Starting Point: pygfx Point Sprites",
-          "content": "Both shaders began as modifications of pygfx's PointsMaterial pipeline. The existing code handled the vertex shader setup for billboard quads, size calculations across different coordinate spaces, and the binding infrastructure for passing data to the GPU. I kept this foundation and focused my work on the fragment shader."
-        },
-        {
-          "title": "Fish Shader: Custom SDF & Billboard Orientation",
-          "content": "The fish shader required more substantial changes. For the shape, I wrote a signed distance function that combines an ellipse (body) with an isosceles triangle (tail) using a smooth union operation. The trickier part was making the fish face into the current by modifying the vertex shader to read a per-vertex yaw angle and orient the billboard quad in world space."
         }
       ]
     }
