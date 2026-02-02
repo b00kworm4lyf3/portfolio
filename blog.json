@@ -30,8 +30,18 @@
               "text": "The basic NDC to RGB shader was pretty straightforward, especially after I gave up trying to do it completely in the frag shader. I know it can be done using just the frag shader, but realized after fiddling for a bit that I was just reverse engineering something that the vertex shader already did. Once I got the trivial shader working I wanted to add in my stars, for which I repurposed the particle system I wrote for my final project in CSCI4229 last semester."
             },
             {
+              "type": "video",
+              "src": "img/csci4239/hw1.mp4",
+              "caption": "Star particle system with NDC to RGB shader applied"
+            },
+            {
               "type": "text",
               "text": "Getting the NDC to RGB color swap to work was simple, as I just had to change the original color assignment to what I had done for the NDC to RGB shader, but calculating a star shape for my point sprites was an absolute brainteaser! I ended up reading some blogs and The Book of Shaders to figure out how to do it and got a little pinwheel looking thing before I decided to get some help from Claude. I asked it to not give me the answer directly but to give me feedback on my thinking process, and that helped me realize I was forgetting to mix between the inner and outer radius of the star."
+            },
+            {
+              "type": "code",
+              "language": "GLSL",
+              "code":"vec2 p = gl_PointCoord*2 - 1; //-1 - 1 (xy plane)\nfloat angle = atan(p.y, p.x);\nfloat dist = length(p); //from center\n\nfloat slice = mod(angle,TAU/5)/(TAU/5); //normalized angle in slice\nfloat r = mix(inR, outR, abs(slice*2 -1));\nfloat alpha = 1 - step( r, dist);\nif(alpha < 0.01) discard; //cutout\n\ngl_FragColor = vec4(colour, alpha);"
             },
             {
               "type": "text",
