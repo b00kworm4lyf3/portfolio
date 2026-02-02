@@ -88,7 +88,30 @@
           "blocks":[
             {
               "type": "text",
-              "text": "My original goal with this homework was to make a foggy glass shader that you could clear by clicking and dragging. After doing a bit of research though I determined that doing something as realistic as I wanted fell far outside anything we've covered so far and also probably wouldn't count as a texture so much as an effect. So I pared the idea down a bit and decided to start with making something glass-like (the basic transparent fresnel shader) and then build textures off that. I read about how to implement fresnel and Schlick's approximation on graphicscompendium.com and a few random blogs, though my first implementation didn't work with transparency because I had used max(dot(N, V), 0.0) instead of abs(dot(N,V)) and I was getting an overwhelming glow from all the back faces! Once I fixed that I decided I wanted to try to keep with my foggy/clear glass idea but lower fidelity then I had originally planned. I copied my basic fresnel and made a new one that used a noise texture generated from noise.c to look foggy and then passed in xy mouse coords when the mouse is clicked. Using those coords I calculated a small area to clear the noise from n_n I spent a while tweaking all the params to make it look perfect and I'm pretty happy with it! I think it could definitely be improved, I would love to build it out more to be able to be drawn on and then have the fog slowly come back in. Finally, I wanted to mess with my star particles from last week seeing as they were calculated almost completely in the frag shader and I thought it would be fun to reimplement them as a texture. I added some animation to them so I could try that out and built a bit on the fresnel effect to also have the edges lit because they looked kinda empty just blue. Overall I spent way too much time on this, probably like 15 hours at least (I gotta get better at remembering to time this stuff), but a lot of that was debugging silly mistakes born out of inexperience with this kind of work. Like I spent HOURS trying to figure out why my fresnel was just totally glowing all over and ended up having the epiphany that I had made that silly math mistake half asleep the next morning. Solving the problems I have made for myself though is pretty addicting, so really I spent so much time on this because I was having fun trying to implement all my silly ideas n_n"
+              "text": "My original goal with this homework was to make a foggy glass shader that you could clear by clicking and dragging. After doing a bit of research though I determined that doing something as realistic as I wanted fell far outside anything we've covered so far and also probably wouldn't count as a texture so much as an effect. So I pared the idea down a bit and decided to start with making something glass-like (the basic transparent fresnel shader) and then build textures off that."
+            },
+            {
+              "type": "video",
+              "src": "img/csci4239/hw2_fresnel.mp4",
+              "caption": "Basic glowy fresnel effect"
+            },
+            {
+              "type": "text",
+              "text": "I read about how to implement fresnel and Schlick's approximation on graphicscompendium.com and a few random blogs, though my first implementation didn't work with transparency because I had used max(dot(N, V), 0.0) instead of abs(dot(N,V)) and I was getting an overwhelming glow from all the back faces! Once I fixed that I decided I wanted to try to keep with my foggy/clear glass idea but lower fidelity then I had originally planned. I copied my basic fresnel and made a new one that used a noise texture generated from noise.c to look foggy and then passed in xy mouse coords when the mouse is clicked. Using those coords I calculated a small area to clear the noise from n_n I spent a while tweaking all the params to make it look perfect and I'm pretty happy with it! I think it could definitely be improved, I would love to build it out more to be able to be drawn on and then have the fog slowly come back in."
+            },
+            {
+              "type":"video",
+              "src": "img/csci4239/hw2_foggy.mp4",
+              "caption": "Demonstration of foggy glass texture with proportional zoom"
+            },
+            {
+              "type": "text",
+              "text": "Finally, I wanted to mess with my star particles from last week seeing as they were calculated almost completely in the frag shader and I thought it would be fun to reimplement them as a texture. I added some animation to them so I could try that out and built a bit on the fresnel effect to also have the edges lit because they looked kinda empty just blue."
+            },
+            {
+              "type": "video",
+              "src": "img/csci4239/hw2_animated.mp4",
+              "caption": "Animated star texture derived from homework 1"
             },
             {
               "type": "link",
