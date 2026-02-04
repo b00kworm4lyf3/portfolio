@@ -249,6 +249,11 @@
 
             container.innerHTML = posts.map(post => blogManager.renderPost(post)).join('');
             
+            // Load any gists that were queued during render
+            if (typeof loadPendingGists === 'function') {
+                loadPendingGists();
+            }
+            
             // Add click handlers to tag links
             container.querySelectorAll('.tag-link').forEach(tag => {
                 tag.addEventListener('click', () => {

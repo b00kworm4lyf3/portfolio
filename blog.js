@@ -155,7 +155,7 @@ class BlogManager {
                 } else if (block.src) {
                     return `
                         <div class="post-video ${videoSizeClass}">
-                            <video controls muted>
+                            <video controls muted loop>
                                 <source src="${block.src}" type="video/mp4">
                                 Your browser does not support video.
                             </video>
@@ -206,9 +206,18 @@ class BlogManager {
                 `;
 
             case 'gist':
+                // Using a unique ID so we can load the script after render
+                const gistContainerId = `gist-${block.gistId.replace(/[^a-zA-Z0-9]/g, '-')}`;
+                const gistSizeClass = block.size ? `gist-${block.size}` : '';
+                // Queue the gist to be loaded after render
+                if (!window.pendingGists) window.pendingGists = [];
+                window.pendingGists.push({
+                    containerId: gistContainerId,
+                    gistId: block.gistId
+                });
                 return `
-                    <div class="post-gist">
-                        <script src="https://gist.github.com/${block.gistId}.js"></script>
+                    <div class="post-gist ${gistSizeClass}">
+                        <div id="${gistContainerId}" class="gist-container"></div>
                         ${block.caption ? `<p class="gist-caption">${block.caption}</p>` : ''}
                     </div>
                 `;
@@ -300,7 +309,7 @@ class BlogManager {
         const assignmentHtml = post.assignmentDetails
             ? `<div class="assignment-details">
                 <button class="assignment-toggle" onclick="this.parentElement.classList.toggle('open')">
-                    <span class="toggle-icon">▼</span> Assignment Details
+                    <span class="toggle-icon">â–¼</span> Assignment Details
                 </button>
                 <div class="assignment-content">
                     <p>${post.assignmentDetails.replace(/\n/g, '<br>')}</p>
@@ -333,6 +342,107 @@ class BlogManager {
 
 // Initialize and export
 const blogManager = new BlogManager();
+
+// Function to load gists after content is rendered
+function loadPendingGists() {
+    if (!window.pendingGists || window.pendingGists.length === 0) return;
+    
+    // Dark mode styles for gist
+    const darkModeCSS = `
+        body { 
+            margin: 0; 
+            background: transparent !important;
+        }
+        .gist {
+            background: transparent !important;
+        }
+        .gist .gist-file {
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            border-radius: 8px !important;
+            margin-bottom: 0 !important;
+            overflow: hidden;
+        }
+        .gist .gist-data {
+            background: #1a1a1a !important;
+            border: none !important;
+        }
+        .gist .gist-meta {
+            background: #2a2a2a !important;
+            color: #94a3b8 !important;
+            border-top: 1px solid rgba(255,255,255,0.1) !important;
+            padding: 10px !important;
+        }
+        .gist .gist-meta a {
+            color: #39ff14 !important;
+        }
+        .gist .blob-wrapper {
+            border-radius: 0 !important;
+        }
+        .gist .blob-code {
+            background: #1a1a1a !important;
+            color: #e2e8f0 !important;
+            border: none !important;
+        }
+        .gist .blob-num {
+            background: #252525 !important;
+            color: #64748b !important;
+            border: none !important;
+        }
+        .gist .pl-c { color: #6b7280 !important; }
+        .gist .pl-c1 { color: #f472b6 !important; }
+        .gist .pl-s { color: #a5f3a6 !important; }
+        .gist .pl-en { color: #93c5fd !important; }
+        .gist .pl-k { color: #c4b5fd !important; }
+        .gist .pl-smi { color: #e2e8f0 !important; }
+        .gist .pl-pds { color: #a5f3a6 !important; }
+        .gist .pl-v { color: #fbbf24 !important; }
+    `;
+    
+    window.pendingGists.forEach(gist => {
+        const container = document.getElementById(gist.containerId);
+        if (!container) return;
+        
+        // GitHub gists use document.write, so we need a workaround
+        // We'll use an iframe approach instead
+        const iframe = document.createElement('iframe');
+        iframe.style.width = '100%';
+        iframe.style.border = 'none';
+        iframe.style.overflow = 'hidden';
+        iframe.style.background = 'transparent';
+        
+        container.appendChild(iframe);
+        
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        iframeDoc.open();
+        iframeDoc.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <base target="_parent">
+                <style>${darkModeCSS}</style>
+            </head>
+            <body>
+                <script src="https://gist.github.com/${gist.gistId}.js"><\/script>
+            </body>
+            </html>
+        `);
+        iframeDoc.close();
+        
+        // Auto-resize iframe to fit content
+        iframe.onload = () => {
+            setTimeout(() => {
+                try {
+                    iframe.style.height = iframe.contentDocument.body.scrollHeight + 'px';
+                } catch(e) {
+                    iframe.style.height = '300px';
+                }
+            }, 500);
+        };
+    });
+    
+    // Clear the queue
+    window.pendingGists = [];
+}
 
 // Auto-initialize when DOM is ready
 if (document.readyState === 'loading') {

@@ -303,6 +303,202 @@
         }
       ],
       "assignmentDetails": "Investigate the performance of different elements of GLSL. Examples of things you may investigate is float vs. int, performance of constructs like if, select, builtin functions vs. explicit calculation, the cost of transcendental functions, inline code vs. function calls, performance differences between different video cards or operating systems, etc.\n\nWhat the program should do is left to your imagination.  The scene could involve lighting, textures, and similar features, but the assignment is to investigate performance of different ways of doing things.\n\nExample 4 contains code to calculate frames per second, which measures the overall performance.  Make sure you disable VSYNC so that this measures to true frame rate.\n\nWhat to submit:\n1) README with discussion of results and brief instructions on how to use the program;\n2) One ZIP archive containing all files you are submitting;\n3) Source code, makefile and any data files I need;\n4) Time it took you to complete the assignment."
+    },
+    {
+      "id": "ATLS3300-2025-02-03-Lab-02",
+      "title": "ATLS3300 Lab 2: Digital IO and LED Reaction Game",
+      "date": "2025-02-03",
+      "tags": {
+        "Course": ["ATLS3300", "Object"],
+        "Topic": ["Circuits", "Arduino"]
+      },
+      "content":[
+        {
+          "type": "section",
+          "heading": "Description",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "This lab is an introduction to Arduino, its IDE, and digital I/O. "
+            },
+            {
+              "type": "text",
+              "text": "Materials Used:\n- Arduino (Elegoo) Uno R3 Controller Board\n- USB Cable\n- Momentary Push Button (x2 for EC)\n- 830 Tie-Points Breadboard\n- Jumper Wires\n- Resistors\n- LEDs\n- Multimeter"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 1: Setting Up the Arduino IDE",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "This section of the lab was about getting ready to do the rest of the lab. We downloaded and installed Arduino IDE, connected our Arduino UNO, and selected it in the Board Selection dropdown. In order to verify everything is working we opened the Blink example program (<strong>File > Examples > 01. Basics > Blink</strong>) and uploaded it to the board."
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab02_blink.MOV",
+              "caption": "Blink example program running on Arduino UNO R3",
+              "size": "medium"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 2: Blinking an External LED",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Now that we are all set up, we can start exploring digital output using the UNO's digital pins. The pins are binary and can be ON or OFF; HIGH or LOW; 1 or 0. HIGH and LOW correlate to a certain voltage, with HIGH being the highest voltage coming in and LOW being 0V. We can use these keywords to program the digital pins to be HIGH/LOW, turning that pin to 5V (HIGH) or 0V (LOW). We can see this is done using <code>digitalWrite(LED_BUILTIN, HIGH)</code> and <code>digitalWrite(LED_BUILTIN, LOW)</code> in the Blink example to turn the built-in LED (pin D13) on and off."
+            },
+            {
+              "type":"text",
+              "text": "Setting up the 5V LED circuit from last lab, where the LED is now powered by digital pin 10, we can use <code>digitalWrite()</code> to control this external LED. I modified the Blink example to use pin 10, stored in the constant <code>LEDPIN</code>, instead of the built-in LED."
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab02_blink2.MOV",
+              "caption": "Blink running on external LED",
+              "size": "medium"
+            },
+            {
+              "type":"text",
+              "text": "I also tried messing with the delay to see what that would look like.\n <strong>Flash warning for the following video!!</strong>"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab02_blink3.MOV",
+              "caption": "Blink running on external LED with only 50ms delay between states",
+              "size": "medium"
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/89213ecace17df3acaf8b0b1f8a983be",
+              "caption": "Updated Blink, using external LED and smaller delay",
+              "size":"medium"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 3: Button Press and Serial Monitor",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Building on the previous section and the previous lab, we are now adding the push button to our circuit. In order to detect when the button is pressed, we can set up a new pin as an input pin using <code>pinMode(BUTTONPIN, INPUT)</code> in our <code>setup()</code> function, where <code>BUTTONPIN</code> is the pin number we are using for input. We can then use <code>digitalRead(BUTTONPIN)</code> to check what the current button state is - which is either HIGH or LOW, not pressed or not pressed. For this lab we want to build a circuit such that when the button is pressed <code>digitalRead(BUTTONPIN)</code> returns HIGH, and when it is not pressed we read LOW, but this could also be done the other way around."
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images": [
+                {
+                  "src": "img/atls3300/lab02_schematic1.png",
+                  "caption": "Schematic of pressed = HIGH button"
+                },
+                {
+                  "src": "img/atls3300/lab02_button.JPG",
+                  "caption": "Implemented button with pull-down resistor"
+                  
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "In order to check if we are actually detecting the button being pressed, we will print to the <strong>Serial Monitor</strong>. In the <code>setup()</code> function we call <code>Serial.begin(9600)</code> to set up a serial connection with a baud rate (data transfer speed) of 9,600 bits/second. Then in the <code>loop()</code> function we can call <code>Serial.println(\"Your message here\")</code> to print to the serial monitor."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab02_print.png",
+              "caption": "Message printing to serial monitor",
+              "size":"medium"
+            },
+            {
+              "type": "text",
+              "text": "Now we combine the button detection with printing to the serial monitor. We want to print a waiting message when the button isn't pressed, and a success message when it is, each one only printing one time - not every time <code>loop()</code> is called. I used a check against the previous state to make sure I was only printing when the state was different than it was before. I also added a bit of an 'animation' to the print, doing a short delay between the ellipses to add to the waiting message. I played around with printing dots until the state changed again but couldn't get it smooth enough that it felt like an addition to such a simple program."
+            },
+            {
+              "type":"gist",
+              "gistId": "b00kworm4lyf3/bb1549e3980dfc4c97b763eaaa073f48",
+              "caption": "Print to serial monitor when button state changes",
+              "size": "medium"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab02_print.mp4",
+              "caption": "Demonstration of print at state change",
+              "size": "medium"
+            },
+            {
+              "type": "text",
+              "text": "In the lab instructions it asks if we noticed that the button state oscillates even when just pressed once, but I didn't notice that in my program. I have a feeling it's because there's built-in debouncing (something I learned about <a href=\"https://docs.arduino.cc/built-in-examples/digital/Debounce/\" target=\"_blank\" rel=\"noopener noreferrer\">in the Arduino Docs</a>) in my program via the <code>delay()</code> calls, or maybe I just found the perfect button ┐(´ー｀)┌"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 4: LED Reaction Game",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Time to put everyting together! In this section of the lab we make an LED reaction game. The LED connected to the Arduino will turn on after a random time interval and then the player will need to press the button as quickly as they can, with the serial monitor outputting the time it took for the player to push the button. The gameplay loop goes:\n<ol><li>The game begins with a greeting on the serial monitor.</li><li>Then the game outputs a \"Ready?\" message, to prepare the player to press the button.</li><li>After the ready message, the Arduino waits for a random interval of time between0.5s and 5s, and then turns on the LED</li><li>The player sees the LED turn on and presses the button as fast as they can</li><li>Once the button is pressed, the LED turns off and the Arduino outputs the time it took for\nthe player to press the button.</li><li>This round is over. Add a delay of 5s after each round to make the player prepared for the\nnext round. After 5s the next round begins from step 2.</li></ol>"
+            },
+            {
+              "type": "text",
+              "text": "I used <code>random(500, 5001)</code> to generate a random delay time between 500 and 5000 milliseconds. This was seeded with <code>randomSeed(8362627)</code>, a number I just mashed in I'm not sure if that matters - I'll look it up next time. Using two calls to <code>millis()</code> I was able to calculate the time it took for the button to be pressed, which I output in fractions of a second rather than milliseconds for user experience purposes. This was being rounded up a bit due to the two decimal place default, but I think that's okay for now. If I were to work on this more I would probably experiment with higher precision."
+            },
+            {
+              "type":"gist",
+              "gistId": "b00kworm4lyf3/8f2cbb18ab09ca03837164a8d51c7e3c",
+              "caption": "Reaction time game with Saw inspired output"
+            },
+            {
+              "type": "text",
+              "text": "I was inspired by the Saw movies when it came to my output messages, this game seems like it could be easily modified to be one of his traps, and had a lot of fun customizing it. After a pretty generic <code>setup()</code>, the Arduino <code>loop()</code> function starts by printing my \"ready\" message - using a function I wrote called <code>timedPrint()</code> which prints character arrays one charater at a time to give textual output a typing effect. After the \"ready\" message the function <code>gameLoop()</code> is called, starting the main game outlined in steps 3-6 above. I added a few branches for different message output depending on how long the player took to press the button, I don't want to congratulate the people who took too long!"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab02_game.MOV",
+              "caption": "All game output branches"
+            }
+          ]
+        },
+        {
+          "type":"section",
+          "heading": "Part 5: Extra Volt",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "A second player has arrived! For the extra credit portion of this lab we were asked to add a second button and then determine which one was pressed first during the game loop. I hooked up a second button the same way as the first one and modified my code to read both buttons, looping until one of them is pressed. I originally was also outputting how long they took to press the button, but it felt superfluous so I took that out."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab02_schematic2.png",
+              "caption": "Updated schematic with second button",
+              "size": "medium"
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/06ee63b5cf00f94ed5c9201d3802d844",
+              "caption": "Updated reaction game program, now built for two players"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab02_game2.MOV",
+              "caption": "Two player reaction game demo"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Problems Faced & Conclusion",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "I didn't have any problems through this lab, everything went very smoothly. I had a lot of fun playing with serial monitor output! It reminded me of my first few programming courses and making small games that you interacted with through the console, I haven't done that in a while and it was great to revisit."
+            }
+          ]
+        }
+      ]
     }
   ]
 }
