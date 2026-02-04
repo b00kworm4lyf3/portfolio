@@ -309,7 +309,7 @@ class BlogManager {
         const assignmentHtml = post.assignmentDetails
             ? `<div class="assignment-details">
                 <button class="assignment-toggle" onclick="this.parentElement.classList.toggle('open')">
-                    <span class="toggle-icon">â–¼</span> Assignment Details
+                    <span class="toggle-icon">▼</span> Assignment Details
                 </button>
                 <div class="assignment-content">
                     <p>${post.assignmentDetails.replace(/\n/g, '<br>')}</p>
