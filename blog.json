@@ -1,9 +1,9 @@
 {
   "posts": [
     {
-      "id": "CSCI4239-2025-01-13-Homework-01",
+      "id": "CSCI4239-2026-01-13-Homework-01",
       "title": "CSCI4239 Homework 1: NDC to RGB Shader",
-      "date": "2025-01-13",
+      "date": "2026-01-13",
       "tags": {
         "Course": ["CSCI4239", "Advanced Computer Graphics"],
         "Topic": ["OpenGL", "GLSL Shaders"]
@@ -58,9 +58,9 @@
       "assignmentDetails": "Create a program that displays a scene in 3D that can be viewed from any direction under user control. Example 1 would be a good starting point.\n\nThe color of every vertex in every object should be set using a shader such that the coordinates of the vertex in Normalized Device Coordinates ([-1,+1] in x,y,z) determines the color of the vertex using a linear mapping in RGB space [0-1].\n\nYour program must work in both orthogonal and perspective, so NDC space starts as 4D homogeneous coordinates and w will not be 1.\n\nThis is a trivial shader, and the vertex and fragment shader should each be only one or two lines.  So make an effort of making this as elegant as you can. Consider this Shader Golf.\n\nWhat to submit:\n1) One ZIP archive containing all files you are submitting;\n\t2) Source code, makefile and any data files I need;\n\t3) README with brief instructions on how to use the program;\n\t4) Time it took you to complete the assignment.\n\nDo a \"make clean\" before creating the ZIP file to clean out intermediate files.\n\nMake sure your program unzips in the current folder.\n\nYou may use the CSCIx5239 library, but make sure that you know what each function from that library that you use is doing."
     },
     {
-      "id": "CSCI4239-2025-01-18-Homework-02",
+      "id": "CSCI4239-2026-01-18-Homework-02",
       "title": "CSCI4239 Homework 2: Procedural Textures",
-      "date": "2025-01-18",
+      "date": "2026-01-18",
       "tags": {
         "Course": ["CSCI4239", "Advanced Computer Graphics"],
         "Topic": ["OpenGL", "GLSL Shaders"]
@@ -124,9 +124,9 @@
       "assignmentDetails": "Create a program that allows a scene to be viewed in 3D from any direction under user control.\n\nThe objects in the scene should be colored using a procedural texture shader. You may not use the wave, brick or mandlebrot shaders shown in class.  If you use a shader from the text or the web, you should improve it.\n\nThis is your first real shader and is an opportunity to explore a few of the features of GLSL.  Appendix C in the text describes the builtin functions which provides useful manipulations.\n\nYour scene should be lit.  You may reuse the phong() function from the Example 2 vertex shader, but improvements are always encouraged.\n\nThe resulting shader may be only a few lines long, so make sure you can justify and explain every line\n\nWhat to submit:\n1) One ZIP archive containing all files you are submitting;\n2) Source code, makefile and any data files I need;\n3) README with brief instructions on how to use the program;\n4) Time it took you to complete the assignment.\n\nRemember to clean up your code and use good software engineering practices.  If you start with my example code, clean out the example shaders.\n\nIn your shader, make sure you can justify and explain every statement."
     },
     {
-      "id": "ATLS3300-2025-01-26-Lab-01",
+      "id": "ATLS3300-2026-01-26-Lab-01",
       "title": "ATLS3300 Lab 1: All Wired Up",
-      "date": "2025-01-26",
+      "date": "2026-01-26",
       "tags": {
         "Course": ["ATLS3300", "Object"],
         "Topic": ["Circuits"]
@@ -271,9 +271,9 @@
       ]
     },
     {
-      "id": "CSCI4239-2025-01-27-Homework-03",
+      "id": "CSCI4239-2026-01-27-Homework-03",
       "title": "CSCI4239 Homework 3: Performance",
-      "date": "2025-01-27",
+      "date": "2026-01-27",
       "tags": {
         "Course": ["CSCI4239", "Advanced Computer Graphics"],
         "Topic": ["OpenGL", "GLSL Shaders", "Performance"]
@@ -305,9 +305,9 @@
       "assignmentDetails": "Investigate the performance of different elements of GLSL. Examples of things you may investigate is float vs. int, performance of constructs like if, select, builtin functions vs. explicit calculation, the cost of transcendental functions, inline code vs. function calls, performance differences between different video cards or operating systems, etc.\n\nWhat the program should do is left to your imagination.  The scene could involve lighting, textures, and similar features, but the assignment is to investigate performance of different ways of doing things.\n\nExample 4 contains code to calculate frames per second, which measures the overall performance.  Make sure you disable VSYNC so that this measures to true frame rate.\n\nWhat to submit:\n1) README with discussion of results and brief instructions on how to use the program;\n2) One ZIP archive containing all files you are submitting;\n3) Source code, makefile and any data files I need;\n4) Time it took you to complete the assignment."
     },
     {
-      "id": "ATLS3300-2025-02-03-Lab-02",
+      "id": "ATLS3300-2026-02-03-Lab-02",
       "title": "ATLS3300 Lab 2: Digital IO and LED Reaction Game",
-      "date": "2025-02-03",
+      "date": "2026-02-03",
       "tags": {
         "Course": ["ATLS3300", "Object"],
         "Topic": ["Circuits", "Arduino"]
@@ -495,6 +495,220 @@
             {
               "type": "text",
               "text": "I didn't have any problems through this lab, everything went very smoothly. I had a lot of fun playing with serial monitor output! It reminded me of my first few programming courses and making small games that you interacted with through the console, I haven't done that in a while and it was great to revisit."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CSCI4239-2026-02-04-Homework-04",
+      "title": "CSCI4239 Homework 4: Vulkan Shader(s?)",
+      "date": "2026-02-04",
+      "tags": {
+        "Course": ["CSCI4239", "Advanced Computer Graphics"],
+        "Topic": ["Vulkan", "GLSL Shaders"]
+      },
+      "content": [
+        {
+          "type": "section",
+          "heading": "Goals",
+          "note": "Written 02-01",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "My main goal with this assignment is to dip my toes into Vulkan and attempt to understand at least some of the pipeline to set it up. If I can make something pretty that'll be a bonus! I'm going to start with drawing something other than a cube and adding a texture other than the pi texture. I also want to make a galaxy shader, probably will just start with a simple animated swirl and then go from there - adding stars and noise to emulate space dust. Eventually I want to go through the whole <a href= \"https://docs.vulkan.org/tutorial/latest/00_Introduction.html\" target=\"_blank\" rel=\"noopener noreferrer\">Khronos Vulkan tutorial</a>, but for now I think this will be a good intro."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reflection",
+          "note": "Written 02-04/02-05",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "Started with the easy thing, swapping the texture, which was no more complex than doing so with OpenGL 2 - easy win right up front! I then wanted to draw an icosahedron using the data from <code>icosahedron.c</code> in order to take a peek at the VBO pipeline and woah, it's so much more in-depth than OpenGL. I'm not really sure if I learned anything from adding the icosahedron? I think that'll be something I need to do from scratch to actually understand what I did in this homework... Anyway, next thing was shaders. I started by adding time to the UBO and just messing with the texture coords in the frag shader - whatever I made made me feel absolutely nauseous to look at but it was working! So started working on writing something new and updating the code to allow me to switch between the sick-shader and the new cool one. This process tested my patience, I thought I'd be able to add another pipeline pretty simply but I made many minor mistakes and had the program crashing on load without any indication of what was wrong. I struggled through debugging this for way too long and when it was finally working I had run out of time to make any sort of gorgeous shader >< all that debugging does mean I understand the pipeline a little bit better than I would've if it had gone smoothly though! "
+            }
+          ]
+        }
+      ],
+      "assignmentDetails": "Create a program that uses shaders in the OpenGL 3 or 4 or Vulkan style, that is using the in and out qualifiers to pass variables into or between shaders and pass variables such as the transformation matrices and light properties into the shader as uniforms.\n\nThe program must implement lighting and textures, and define the scene using vertex buffer objects.\n\nI recommend you start with Example 6 for GL or Example 7 for Vulkan, and expand on those.\n\nAccording to Apple, OpenGL 4.1 is supported on Macs built from 2011 onwards.  Older Macs only supports OpenGL 3.3.\n\nIf you already have experience with OpenGL 4 and want a challenge, I would recommend doing this assignment in Vulkan.\n\nWhat to submit:\n1) One ZIP archive containing all files you are submitting;\n2) Source code, .pro file and any data files I need;\n3) README with brief instructions on how to use the program;\n4) Time it took you to complete the assignment. "
+    },
+    {
+      "id": "ATLS3300-2026-02-10-Lab-03",
+      "title": "ATLS3300 Lab 3: Soldering Basics",
+      "date": "2026-02-10",
+      "tags": {
+        "Course": ["ATLS3300", "Object"],
+        "Topic": ["Circuits", "Arduino"]
+      },
+      "content":[
+        {
+          "type": "section",
+          "heading": "Description",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "This lab is an introduction to soldiering."
+            },
+            {
+              "type": "text",
+              "text": "Materials Used:\n<strong>Kit Items:</strong>\n- Arduino (Elegoo) Uno R3 Controller Board\n- USB Cable\n- Momentary Push Button\n- Jumper Wires\n- Resistors\n- LEDs\n- Multimeter\n\n<strong>BTU Tools:</strong>\n- Soldering Iron\n- Fume Extractor\n- Brass Wire Pad\n- Soldering Helping Hands\n- Solder Sucker Desoldering Pump\n- Solder Wick\n- Wire Stripper\n- Diagonal Pliers\n- Safety Glasses\n\n<strong>Additional Items:</strong>\n- Lead-free, Rosin-core Solder\n- Protoboard\n- 22G Stranded Wire\n- 22G Solid-core Wire\n- 2.54mm Pin Headers"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 1: Soldering Setup and Safety",
+          "blocks":[
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images": [
+                {
+                  "src": "img/atls3300/lab03_setup1.JPG",
+                  "caption": "Tools for soldering"
+                },
+                {
+                  "src": "img/atls3300/lab03_setup2.JPG",
+                  "caption": "Fan for removing harmful vapours"
+                }
+              ]
+            },
+            {
+              "type":"text",
+              "text": "In order to safely solder we need to take many precautions. Once the iron is on we must be careful to handle it properly, always grabbing it by the handle and not the metal front, to avoid burning ourselves. We must also always keep the iron in its stand when it's not in our hands, setting it on other surfaces will cause burn damage. Once the iron is on the fume extractor fan must also be on, and after soldering you must wash your hands, as the solder can contain harmful chemicals and metals. Finally, while soldering you need to wear safety glasses to protect your eyes from droplets and suspended metal perticles."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 2: Soldering Wires to Protoboard",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Now that we are safely set up, we can start soldering. We will start by soldering wires to protoboard, using both solid-core and stranded. After the iron is heated we need to tin and clean the tip of the soldering iron before we can use it reliable, this process makes it easier to melt more solder."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab03_tinned.JPG",
+              "caption": "Tinned soldering iron",
+              "size": "small"
+            },
+            {
+              "type":"text",
+              "text": "Once the iron is tinned we can start soldering! Here are my very first joints, I think I found working with the solid-core wire to be easier but that might've been because I had more of it to practice with."
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images":[
+                {
+                  "src": "img/atls3300/lab03_top1.JPG",
+                  "caption": "Wires joined to protoboard"
+                },
+                {
+                  "src":"img/atls3300/lab03_bottom1.JPG",
+                  "caption": "Solder joints on protoboard"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 3: Bridge of Solder",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "In this section we connect our solder joints with traces or bridges. I super struggled with this process, I'll need a lot more practice before I feel confident with this skill. That being said, I'm pretty happy with how these turned out and I'm glad I didn't just half-ass the process to get it over with!"
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab03_traces.JPG",
+              "caption": "My first bridges! You can really tell which one I started with",
+              "size": "medium"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 4: Splicing Wires",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "In this final section we practiced splicing wires, after the other two parts this kinda felt like a piece of cake. Not that I think I'm good at it yet, but it felt like a lot less to juggle!"
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images": [
+                {
+                  "src": "img/atls3300/lab03_splice1.JPG",
+                  "caption": "Splice 1"
+                },
+                {
+                  "src": "img/atls3300/lab03_splice2.JPG",
+                  "caption": "Splice 2"
+                }
+              ],
+              "size": "medium"
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images": [
+                {
+                  "src": "img/atls3300/lab03_splice3.JPG",
+                  "caption": "Splice 3"
+                },
+                {
+                  "src": "img/atls3300/lab03_spliced.JPG",
+                  "caption": "Spliced wires"
+                }
+              ],
+              "size": "medium"
+            }
+          ]
+        },
+        {
+          "type":"section",
+          "heading": "Extra Volt: Yet Another LED Circuit",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "I wanted to attempt this extra credit section in order to get more practice with soldering and working with circuits. This doesn't seem to come very naturally for me so I need all the practice I can get! When soldering this together I struggled with keeping adjacent holes on the protoboard clean of solder, luckily it was only in areas I wasn't using through so I didn't stress too too much about cleaning it all up. I double checked with Erin before plugging it in to power though, just to be safe :) and tada it works!"
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images":[
+                {
+                  "src":"img/atls3300/lab03_extra1.JPG",
+                  "caption": "Soldered LED circuit on protoboard"
+                },
+                {
+                  "src":"img/atls3300/lab03_extra2.JPG",
+                  "caption": "Bottom of LED circuit on protoboard"
+                }
+              ],
+              "size": "medium"
+            },
+            {
+              "type": "video",
+              "src":"img/atls3300/lab03_extra.MOV",
+              "caption": "Blink running on soldered LED circuit",
+              "size": "medium"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Problems Faced & Conclusion",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "I was really frustrated throughout most of this lab, working with new materials is hard and I seriously hate the struggle stage of learning a new craft. That being said, I'm also super stubborn so I will be practicing this every chance I get. I'm not sure if there's any further conclusion I can make for this lab, this felt like a good intro to soldering and we got to try a range of things rather than just one and I enjoyed that."
             }
           ]
         }
