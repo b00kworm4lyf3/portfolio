@@ -713,6 +713,301 @@
           ]
         }
       ]
+    },
+    {
+      "id": "CSCI4239-2026-02-10-Homework-05",
+      "title": "CSCI4239 Homework 5: OpenGL ES",
+      "date": "2026-02-12",
+      "tags": {
+        "Course": ["CSCI4239", "Advanced Computer Graphics"],
+        "Topic": ["WebGL", "GLSL Shaders", "OpenGL ES"]
+      },
+      "content": [
+        {
+          "type": "section",
+          "heading": "Goals",
+          "note": "Written 02-09",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "I'm going to start with the OpenGL ES example from class <a href=\"https://prinmath.com/csci5229/Sp25/programs/index.html\" target=\"_blank\" rel=\"noopener noreferrer\">(example 8)</a> with my main goal being to make a few shaders I could feature in the banner on the homepage of my profile site! I won't need lighting for what I'm doing and I'll only be using the cube already in the scene to test the shaders on because on my site they'll be filling the whole canvas, though if I have time I might try a few variations with lighting or 3D considerations. I want to make at least two shaders -- one that's an animated fire effect using a noise texture, and another that uses particles and mouse data to create a fun interactive effect."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reflection",
+          "note": "Written 02-12",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "I absolutely loved working on these shaders this week! They could both use a little tweaking before going onto my website, but I'm super proud of what I was able to get done in such a short period of time. My scrolling fire was inspired by <a href=\"https://youtu.be/KVTa2xkly1g\" target=\"_blank\" rel=\"noopener noreferrer\">this PlayWithFurcifer YouTube video</a> where he shows how to make a similar effect using Godot, so I used that to get started on my own scrolling noise fire shader. I used a colour ramp texture to give the fire different colours depending on the intensity of the noise at that pixel. I made the colour ramp "
+            }
+          ]
+        }
+      ],
+      "assignmentDetails": "Create a program that uses OpenGL ES to create a scene that can be viewed in 3D under user control. The easiest would be to do this with WebGL, but you can do it using iOS or Android if that better matches your interests.  At a minumum the scene should consist of an object generated in code with  lighting and textures.\n\nIf you do this using WebGL, you can upgrade Ex 8 to include lighting and textures and draw a different 3D solid object.  You may use my mat4.js library of functions provided in class or an equivalent library to provide the transformation functions.  However, you may NOT use libraries such as Three.js or equivalent packages that does all the OpenGL calls for you because it abstracts the objects and controls to the extent that you never see WebGL.\n\nIf you choose to to do this using iOS or Android you can start with one of the example programs provided with Xcode or Android Studio.\n\nThere are a lot of new things to cope with here, so I don't expect you to draw a very complex scene, but I do want you to make sure you can explain every line of code and what improvements you made to what you started with.\n\nWhat to submit:\n1) One ZIP archive containing all files you are submitting;\n2) README with brief instructions on how to build and use the program and what I should be looking for;\n3) Time it took you to complete the assignment.\n\nNOTE:  How I will review your WebGL code is to put it an a web server and access it via that web server.  So you do not need to provide a local web server.  Just make sure that all paths are relative."
+    },
+    {
+      "id": "ATLS3300-2026-02-17-Lab-04",
+      "title": "ATLS3300 Lab 4: Whack-A-MoLED",
+      "date": "2026-02-17",
+      "tags": {
+        "Course": ["ATLS3300", "Object"],
+        "Topic": ["Circuits", "Arduino"]
+      },
+      "content":[
+        {
+          "type": "section",
+          "heading": "Description",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "This lab is for building our understanding of circuits and Arduino. Using analog input -- a potentiometer and a joystick -- we learn how to control different LED arrangements and make two different whack-a-mole games."
+            },
+            {
+              "type": "text",
+              "text": "Materials Used:\n- Arduino (Elegoo) Uno R3 Controller Board\n- USB Cable\n- Jumper Wires\n- Resistors\n- LEDs\n- Potentiometer 10k\n- Joystick Module\n- Multimeter\n"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 1: Using a Potentiometer",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "This is my basic potentiometer circuit setup, with pin 2 hooked up to analog pin A0."
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images":[
+                {
+                  "src":"img/atls3300/lab04_potCirc.JPG",
+                  "caption": "Potentiometer circuit setup",
+                  "size":"medium"
+                },
+                {
+                  "src":"img/atls3300/lab04_potSchematic.png",
+                  "caption": "Schematic for potentiometer setup -- from ReadAnalogVoltage GitHub",
+                  "size": "small"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "Using <code>analogRead()</code> we can read and print the value of the potentiometer to the serial monitor."
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/d2376ae7819cfa40bae987580e7f52b2",
+              "size": "small"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab04_printPotVal.mp4",
+              "size": "medium",
+              "caption": "Potentiometer values printed to serial monitor"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 2: Light 'Em Up With a Potentiometer",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Using the potentiometer and the <code>map()</code> function, we can control a spread of LEDs -- having them light up in sequence as we turn our potentiometer to the right. I mapped the potentiometer range (0-1023) to a range of 0-5, indicating the number of lights that should be lit up. I had set up my circuit with left reading 1023 and right reading zero, so I flipped my <code>max()</code> function to accommodate for that."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab04_potLightsCirc.JPG",
+              "caption": "Circuit with potentiometer and 5 LEDs",
+              "size": "medium"
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/f4fddaa831a391431489c647f3a09eaa",
+              "size":"medium"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab04_potLights.MOV",
+              "caption": "Demonstration of lights controlled by potentiometer",
+              "size": "medium"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 3: Joystick for Arduino",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Moving on from the potentiometer, we're hooking up the joystick module now! X and Y axis potentiometers that we can use to control a new 5 LED arrangement in section 4."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab04_joystickCirc.JPG",
+              "size": "medium",
+              "caption": "Basic joystick circuit"
+            },
+            {
+              "type": "text",
+              "text": "With this basic joystick setup we can read values from A0 similarly to how we did for the potentiometer, this time we have two axes though so we're going to link A0 to the X axis and A1 to the Y. When the joystick is centered, both X and Y read around 512 (half of the total range). If you move the joystick left, the X value goes toward zero, and right brings it toward 1023. Similarly, moving the joystick up moved the Y value toward zero and down brought it toward 1023. If you go to the diagonals you get combinations of these values -- ie left and up makes X and Y both zero, while left and down makes X zero and Y 1023."
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/379ab78da9042c8fe0ba2589307fd959",
+              "size": "small"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab04_printJSVal.mp4",
+              "size": "medium",
+              "caption": "Joystick values printed to serial monitor"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 4: Light 'Em Up With a Joystick",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "In order to visualize the joystick moving, we wired up 5 LEDs in a plus (+) layout. Mine is a little more skewed than I would've liked, but it's still recognizable I think. If it were for something I was having other people use I would definitely fix it up though! This was a hard thing to get photos of, I tried to keep it as organized as possible but it's a lot of wires, so I'm adding photos of the top and side views to hopefully clarify what's going on."
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images":[
+                {
+                  "src": "img/atls3300/lab04_jsLightsCircTop.JPG",
+                  "caption":"Circuit with joystick and 5 LEDs (top)"
+                },
+                {
+                  "src": "img/atls3300/lab04_jsLightsCircSide.JPG",
+                  "caption":"Circuit with joystick and 5 LEDs (side)"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "Using our analog pins A0 and A1 we can map the movement of the joystick to the LEDs, turning them on when the joystick is pointing in their direction."
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/aa04f884f61ac96713a343b534f6e920",
+              "size": "medium"
+            },
+            {
+              "type":"video",
+              "src": "img/atls3300/lab04_jsLights.MOV",
+              "size": "medium",
+              "caption": "Demonstration of lights controlled by joystick"
+            }
+          ]
+        },
+        {
+          "type":"section",
+          "heading": "Part 5: Basic LED Whack-A-Mole",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "With our joystick and LEDs all set up, we're going to turn this into a simple whack-a-mole game! A random LED will light up and stay on until the player moves the joystick in the direction of the lit LED. This will happen 20 times and then the player will be presented with the total time it took for them to catch all 20 LEDs Instead of automatically starting a new round, I set up my game to have an idle state where the player can decide if they want to play more or not. If they say no the lights will flash in sequence and the loop will wait for the player to say they want to play again."
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/a7fb66709a9aba31d4dc0c520e1804a5",
+              "size": "medium"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab04_whackBasic.MOV",
+              "size":"medium",
+              "caption": "Whack-A-MoLED demonstration - single round + idle"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab04_whackBasicOutputLong.mp4",
+              "size":"medium",
+              "caption": "Whack-A-MoLED output - multiple rounds + idle"
+            }
+          ]
+        },
+        {
+          "type":"section",
+          "heading": "Extra Volt: Advanced LED Whack-A-Mole",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "Advanced Whack-A-MoLED is more like real whack-a-mole, with the LEDs turning on and off randomly and the player earning points for how many they catch in a 30s round. I'm realizing I did mine slightly wrong as I skipped over the idea that there could be more than a single light on at once, so my game only has one light on at a time, but they're randomly selected and turn on/off for random intervals of time."
+            },
+            {
+              "type":"gist",
+              "gistId": "b00kworm4lyf3/adc0684169cba3364ab80b1dc74cd0d4",
+              "size": "medium"
+            },
+            {
+              "type":"video",
+              "src":"img/atls3300/lab04_whackAdv.MOV",
+              "size": "medium",
+              "caption": "Whack-A-MoLED advanced demonstration - single round"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab04_whackAdvOutputLong.mp4",
+              "size":"medium",
+              "caption": "Whack-A-MoLED advanced output - multiple rounds + idle"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Problems Faced & Conclusion",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "This has been my favourite lab we've done so far, actually putting a lot of the concepts together and creating something that is almost usable by someone who isn't in the class felt good! I didn't really have many problems, the biggest one was probably when I was trying to be smart and iterate over the list forwards to turn the lights on and backwards to turn them off but I had gotten my indexing wrong and so was just going over the same part of the list both times. I fixed it by just going forwards for the turning off loop too so that it was a bit more easily readable and that helped me find my bug. I'm really excited to keep building on these concepts!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CSCI4239-2026-02-18-Homework-06",
+      "title": "CSCI4239 Homework 6: Image Processing",
+      "date": "2026-02-18",
+      "tags": {
+        "Course": ["CSCI4239", "Advanced Computer Graphics"],
+        "Topic": ["GLSL Shaders", "OpenGL"]
+      },
+      "content": [
+        {
+          "type": "section",
+          "heading": "Goals",
+          "note": "Written 02-16",
+          "blocks": [
+            {
+              "type": "text",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reflection",
+          "note": "Written 02---",
+          "blocks":[
+            {
+              "type": "text",
+              "text": ""
+            }
+          ]
+        }
+      ],
+      "assignmentDetails": "Create a program that performs image processing using GLSL.\n\nThis is a very domain specific assignment, but the applications are very wide ranging. Some examples are:\n1)  Spatial transformations such as sharpening, blurring, edge detection, etc;\n2)  Color transformations;\n3)  Resampling transformations such as averaging, anti-aliasing;\n4)  Multi-image operations;\n5)  Special effects.\n\nAnybody who can write a shader that will sharpen an image so you can read the license plate from the reflection on somebody's sunglasses gets an automatic A+ in this class.\n\nWhat to submit:\n1) README with discussion of results and brief instructions on how to use the program;\n2) One ZIP archive containing all files you are submitting;\n3) Source code (shader and program), makefile and any data files I need;\n4) Time it took you to complete the assignment."
     }
   ]
 }
