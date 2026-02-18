@@ -526,6 +526,11 @@
           "note": "Written 02-04/02-05",
           "blocks":[
             {
+              "type": "video",
+              "src": "img/csci4239/hw4.mp4",
+              "size": "medium"
+            },
+            {
               "type": "text",
               "text": "Started with the easy thing, swapping the texture, which was no more complex than doing so with OpenGL 2 - easy win right up front! I then wanted to draw an icosahedron using the data from <code>icosahedron.c</code> in order to take a peek at the VBO pipeline and woah, it's so much more in-depth than OpenGL. I'm not really sure if I learned anything from adding the icosahedron? I think that'll be something I need to do from scratch to actually understand what I did in this homework... Anyway, next thing was shaders. I started by adding time to the UBO and just messing with the texture coords in the frag shader - whatever I made made me feel absolutely nauseous to look at but it was working! So started working on writing something new and updating the code to allow me to switch between the sick-shader and the new cool one. This process tested my patience, I thought I'd be able to add another pipeline pretty simply but I made many minor mistakes and had the program crashing on load without any indication of what was wrong. I struggled through debugging this for way too long and when it was finally working I had run out of time to make any sort of gorgeous shader >< all that debugging does mean I understand the pipeline a little bit better than I would've if it had gone smoothly though! "
             }
