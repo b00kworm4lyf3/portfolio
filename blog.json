@@ -1023,6 +1023,224 @@
         }
       ],
       "assignmentDetails": "Create a program that performs image processing using GLSL.\n\nThis is a very domain specific assignment, but the applications are very wide ranging. Some examples are:\n1)  Spatial transformations such as sharpening, blurring, edge detection, etc;\n2)  Color transformations;\n3)  Resampling transformations such as averaging, anti-aliasing;\n4)  Multi-image operations;\n5)  Special effects.\n\nAnybody who can write a shader that will sharpen an image so you can read the license plate from the reflection on somebody's sunglasses gets an automatic A+ in this class.\n\nWhat to submit:\n1) README with discussion of results and brief instructions on how to use the program;\n2) One ZIP archive containing all files you are submitting;\n3) Source code (shader and program), makefile and any data files I need;\n4) Time it took you to complete the assignment."
+    },
+    {
+      "id": "ATLS3300-2026-02-24-Lab-05",
+      "title": "ATLS3300 Lab 5: Revenge of the Synth",
+      "date": "2026-02-24",
+      "tags": {
+        "Course": ["ATLS3300", "Object"],
+        "Topic": ["Circuits", "Arduino"]
+      },
+      "content":[
+        {
+          "type": "section",
+          "heading": "Description",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Building on last week's lab focusing on analog input, this lab has us working with analog output to light up an RGB LED (parts 1 and 2) and play a song using a piezo buzzer (parts 3 and 4). Then the extra volt gives us the opportunity to combine both outputs to make an audio-visualizer."
+            },
+            {
+              "type": "text",
+              "text": "Materials Used:\n- Arduino (Elegoo) Uno R3 Controller Board\n- USB Cable\n- Jumper Wires\n- Resistors\n- RGB LED\n- Joystick Module\n- Passive Buzzer\n- Multimeter\n"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 1: Wiring up the RGB LED",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "We're going to be wiring up the RGB LED in this section, which is an LED made up of three lights so we can make more complex colours. I used three 220Ω resistors, one for each colour of the LED, which was okay for this use but I could use lower resistance for the green and blue if I want the colours to have more even brightness in future projects."
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images": [
+                {
+                  "src": "img/atls3300/lab05_rgbSchem.png",
+                  "caption": "Schematic of RGB LED circuit",
+                  "size": "small"
+                },
+                {
+                  "src": "img/atls3300/lab05_rgbCirc.JPG",
+                  "caption": "Implemented RGB LED circuit"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "The above circuit has the blue not connected correctly, something I only realized once I was trying to get the light to turn on! This LED is sooo bright, so I toned everything way down so that I could actually look at the colours and take pictures of them. I chose white, pink, yellow (which really just looked white in my camera no matter how much I bumped up either colour it was made of), and blurple. "
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images": [
+                {
+                  "src": "img/atls3300/lab05_rgbWhite.JPG",
+                  "caption": "RGB LED lit up white (10, 10, 10)",
+                  "size": "small"
+                },
+                {
+                  "src": "img/atls3300/lab05_rgbPink.JPG",
+                  "caption": "RGB LED lit up pink (10, 0, 5)",
+                  "size": "small"
+                },
+                {
+                  "src": "img/atls3300/lab05_rgbYellow.JPG",
+                  "caption": "RGB LED lit up yellow (45, 20, 0)",
+                  "size": "small"
+                },
+                {
+                  "src": "img/atls3300/lab05_rgbBlurple.JPG",
+                  "caption": "RGB LED lit up blurple (10, 0, 25)",
+                  "size": "small"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 2: Dynamic Color Changer with Joystick",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Now that the LED is all hooked up and we can send it fun colours, we're going to use joystick input to control the colours displayed. I mapped the X axis to red and the Y axis to green, and then have blue as a random integer that you can re-roll by clicking the joystick."
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/f3811e23963107b490fb2a19870c7486",
+              "size": "small"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab05_ledJs.MOV",
+              "description": "Demonstration of joustick input to LED output",
+              "size": "medium"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 3: Musical Notes with Passive Buzzer",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "Moving on to a new type of output, in this section we will be using a piezo buzzer to output sound. We can't output true soundwaves with the Arduino Uno, but the passive buzzer we have in our kits can produce sound with square waves (like PWM)."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab05_buzzerCirc.JPG",
+              "caption": "Passive buzzer circuit",
+              "size": "medium"
+            },
+            {
+              "type": "text",
+              "text": "Using <code>tone(PIN, FREQ, DUR)</code> we can make the buzzer play a specific note with an optional duration. If the duration isn't specified in the <code>tone()</code> function the note will play indefinitely until <code>noTone()</code> is called."
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/0b797404bd684d465de1d62cb8ce10ac",
+              "size": "small"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab05_beep1.MOV",
+              "caption": "Passive buzzer sounding an A note (440 Hz)",
+              "size": "medium"
+            },
+            {
+              "type": "text",
+              "text": "Writing out each frequency rather than the notes we more generally use becomes tedious at scale, so we can use an H file to define each note and use that in place of hardcoded frequencies."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab05_pitchesH.png",
+              "caption": "pitches.h file open in the arduino IDE",
+              "size": "medium"
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/977741b7ac111b4bceb6e019af120a44",
+              "size": "small"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab05_beep2.MOV",
+              "caption": "Passive buzzer sounding a C sharp using defined notes",
+              "size": "medium"
+            }
+
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 4: Melody from a Buzzer",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Building on playing individual notes, we can play songs by stringing them together for different durations. We were given the notes and durations for the first 18 notes of \"The Imperial March\" from Star Wars, which I decided to build a struct for and then put all the data in an array of my <code>noteData</code> struct type."
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/a9b00a22da3889d0af26b29ba026a04b",
+              "size": "small"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab05_beep3.MOV",
+              "caption": "Passive buzzer playing \"The Imperial March\"",
+              "size": "medium"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab05_beep4.MOV",
+              "caption": "Passive buzzer playing a silly lil tune",
+              "size": "medium"
+            }
+          ]
+        },
+        {
+          "type":"section",
+          "heading": "Extra Volt: Music Visualizer",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "For the extra volt I mapped the note frequency to the red channel, base duration to green, and dot duration to blue. I then used a for loop and power function to make the LED brightness fade out once each note is played, giving my visualizer a punchy attack and smooth decay."
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/fa0df4d8c68736fbc2c49b8e264243ad",
+              "size": "small"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab05_extraBeep.MOV",
+              "caption": "Passive buzzer and RGB LED playing a lil tune",
+              "size": "medium"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab05_extraBeep2.MOV",
+              "caption": "Passive buzzer and RGB LED playing \"The Imperial March\"",
+              "size": "medium"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Problems Faced & Conclusion",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "This lab was super fun! Biggest issue I had was getting the joystick button to work because I was treating it the same as the buttons we had wired up previously. Not only is it mapped opposite to the ones we did in class, but it's also using a pullup resistor internally so when I originally set its pin mode to INPUT that wouldn't work. Changing it to INPUT_PULLUP fixed everything though! I also hated working with the buzzer honestly, it's so annoying and next time I work with this I will be giving myself a way to pause/stop the sound and lights so I don't need to unplug everything every few minutes as well as using a resistor to hopefully make it a little quieter."
+            }
+          ]
+        }
+      ]
     }
   ]
 }
