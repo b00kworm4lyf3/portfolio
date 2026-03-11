@@ -1241,6 +1241,234 @@
           ]
         }
       ]
+    },
+    {
+      "id": "ATLS3300-2026-03-10-Lab-06",
+      "title": "ATLS3300 Lab 6: Fine Motor Control",
+      "date": "2026-03-10",
+      "tags": {
+        "Course": ["ATLS3300", "Object"],
+        "Topic": ["Circuits", "Arduino"]
+      },
+      "content":[
+        {
+          "type": "section",
+          "heading": "Description",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "This lab is about using motors. We will be using two different types of motors, servo and DC, and controlling in different ways through the Arduino UNO. We will finally build an oscillating toy fan, with the opportunity to combine the potentiometer control and dynamic oscillation in the extra volt section."
+            },
+            {
+              "type": "text",
+              "text": "Materials Used:\n- Arduino (Elegoo) Uno R3 Controller Board\n- USB Cable\n- Jumper Wires\n- Resistors\n- Power Supply Module\n- Servo Motor SG90\n- DC Motor and Fan Blade\n- L293D IC\n- Momentary Push Button\n- Potentiometer\n- 9V Battery with Snap-On Connector\n- Multimeter\n"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 0: Setting Up Power",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Motors draw a lot of and can have large fluctuations in current, so we can't power them just through our Arduino boards. They need an external power source supporting them, which for us is our 9V battery through the power supply module. While the motors will be powered this way, the Arduino board will still be powered via USB from our computer. Because we are using two sources of power, we need to make sure they share a 'common ground' and are connected to each other."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab06_power.JPG",
+              "size": "small",
+              "caption": "Power module with battery ready to go"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 1: Wiring the Servo",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Our first task is to connect the servo motor to the Arduino UNO. We connect the red wire to power, brown to ground, and orange to digital pin 9 -- which allows PWM."
+            },
+            {
+              "type": "image",
+              "src":"img/atls3300/lab06_servoCirc.JPG",
+              "size": "medium",
+              "caption": "Servo motor connected to Arduino UNO"
+            },
+            {
+              "type": "text",
+              "text": "We can now control the servo with PWM through the <code>Servo.h</code> arduino library. We need to install this library in the Arduino IDE and then use the sample code \"Sweep\" to check that we have everything set up properly."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab06_servoLib.png",
+              "size": "medium",
+              "caption": "<code>Servo.h</code> library installed in Arduino IDE"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab06_sweep.MOV",
+              "size": "medium",
+              "caption": "Servo running \"Sweep\""
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 2: Controlling the Servo",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Now that the servo is connected and working, we can use a potentiometer to control its movement by mapping (using <code>map()</code>) our input range to the 0-180 degrees our servo can turn."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab06_potCirc.JPG",
+              "caption": "Potentiometer circuit setup",
+              "size": "medium"
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/78e43329ccea7f6848f32dabb2d4748c",
+              "size": "medium"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab06_pot2Servo1.MOV",
+              "size": "medium",
+              "caption": "Servo running <code>pot2Servo1.ino</code>"
+            },
+            {
+              "type": "text",
+              "text": "Another way we can use the potentiometer with the servo motor is mapping input to delay time -- which we can use to control the speed of the servo sweep."
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/66eb6400239fa256c16c2b6273ab7b7d",
+              "size": "medium"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab06_pot2Servo2.MOV",
+              "size": "medium",
+              "caption": "Servo running <code>pot2Servo2.ino</code>"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 3: DC Motor and Motor Driver",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "The servo motors are great for precise angle control in a 0-180 degree range, but they aren't useful for all applications. For this section we will be using a DC motor, which can rotate continuously and quickly in one direction. The DC motor we have in our kit is fast enough to run a small fan, but doesn't have a lot of torque so will stop if something interrupts it."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab06_dcCirc1.JPG",
+              "size": "small",
+              "caption": "DC motor hooked up to power supply"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab06_dc1.MOV",
+              "size": "small",
+              "caption": "DC motor running off 5V from power supply"
+            },
+            {
+              "type": "text",
+              "text": "Switching the wites in our circuit would make the fan spin the other way, but we can't ask people to rewire their motors to make them go in reverse. In order to control the direction using the Arduino we can use a motor driver in our circuit."
+            },
+            {
+              "type": "image",
+              "src": "img/atls3300/lab06_dcCirc2.JPG",
+              "size": "medium",
+              "caption": "DC motor hooked up to motor driver"
+            },
+            {
+              "type": "text",
+              "text": "With this new circuit we can now control which way the fan spins using <code>digitalWrite()</code> to flip the circuit and which pin is sending current to the motor."
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab06_dc2.MOV",
+              "size": "small",
+              "caption": "DC motor running with motor driver"
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/9ead7acf82761798e0bdfd4a5f5e6d15",
+              "size": "small"
+            },
+            {
+              "type": "text",
+              "text": "We can also control the speed of the fan using PWM through <code>analogWrite()</code>."
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab06_dc3.MOV",
+              "caption": "DC fan running at different speeds using PWM",
+              "size": "small"
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/443f36894b76c5a743bcf41261501491",
+              "size": "small"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 4: Table-Top Fan",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Finally, we can combine our two motors to make a toy oscillating fan!"
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images": [
+                {
+                  "src": "img/atls3300/lab06_fan.JPG",
+                  "size": "medium",
+                  "caption": "DC fan attached to servo arm"
+                },
+                {
+                  "src": "img/atls3300/lab06_fanCirc.JPG",
+                  "size": "medium",
+                  "caption": "DC + servo motor circuit"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "We can now run the motors in tandem, with the servo rotating from 0-120 degrees and back and the DC motor fan spinning continuously at 70% speed - which we can do using <code>analogWrite(enA, 178)</code>."
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab06_fan.MOV",
+              "size":"medium",
+              "caption": "Toy oscillating fan using servo and DC motor"
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/b67c935c28923ed1626243d8ccd0a36a",
+              "size": "small"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Problems Faced & Conclusion",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "I didn't have any problems with this lab, It was very straightforward. I ended up skipping the extra volt because it seemed rather tedious without much learning value for me -- I can only hook up the joystick and map potentiometer values so many times before wanting to go a bit further with it \n╮(ᵕ—ᴗ—)╭ Overall I had fun with this lab though."
+            }
+          ]
+        }
+      ]
     }
   ]
 }
