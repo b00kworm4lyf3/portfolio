@@ -518,12 +518,76 @@
     color: #39ff14 !important;
 }
 
+/* Gist dark mode syntax highlighting */
+.post-gist .gist .blob-code {
+    background: #1a1a1a !important;
+    color: #e2e8f0 !important;
+}
+
+.post-gist .gist .blob-num {
+    background: #252525 !important;
+    color: #64748b !important;
+    border-right: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+.post-gist .gist .blob-wrapper {
+    background: #1a1a1a !important;
+}
+
+.post-gist .gist .pl-c { color: #6b7280 !important; }
+.post-gist .gist .pl-c1 { color: #f472b6 !important; }
+.post-gist .gist .pl-s { color: #a5f3a6 !important; }
+.post-gist .gist .pl-en { color: #93c5fd !important; }
+.post-gist .gist .pl-k { color: #c4b5fd !important; }
+.post-gist .gist .pl-smi { color: #e2e8f0 !important; }
+.post-gist .gist .pl-pds { color: #a5f3a6 !important; }
+.post-gist .gist .pl-v { color: #fbbf24 !important; }
+
 .gist-caption {
     margin-top: 0.5rem;
     color: #94a3b8;
     font-size: 0.85rem;
     font-style: italic;
     text-align: center;
+}
+
+/* Tabbed multi-file gist styles */
+.gist-tab-bar {
+    display: flex;
+    background: #1a1a1a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    overflow-x: auto;
+}
+
+.gist-tab {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+}
+
+.gist-tab:hover {
+    color: #e2e8f0;
+    background: rgba(255,255,255,0.05);
+}
+
+.gist-tab.active {
+    color: #39ff14;
+    border-bottom-color: #39ff14;
+    background: rgba(57, 255, 20, 0.05);
+}
+
+.gist-tabbed .gist-file {
+    border-radius: 0 0 8px 8px !important;
+    margin-bottom: 0 !important;
 }
 
 /* Gist size variants */

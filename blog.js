@@ -215,9 +215,15 @@ class BlogManager {
                     containerId: gistContainerId,
                     gistId: block.gistId
                 });
+                // return `
+                //     <div class="post-gist ${gistSizeClass}">
+                //         <div id="${gistContainerId}" class="gist-container"></div>
+                //         ${block.caption ? `<p class="gist-caption">${block.caption}</p>` : ''}
+                //     </div>
+                // `
                 return `
-                    <div class="post-gist ${gistSizeClass}">
-                        <div id="${gistContainerId}" class="gist-container"></div>
+                    <div class="post-gist ${gistSizeClass}" data-gist-id="${block.gistId}">
+                        <div class="gist-loading">Loading gist...</div>
                         ${block.caption ? `<p class="gist-caption">${block.caption}</p>` : ''}
                     </div>
                 `;
@@ -337,6 +343,80 @@ class BlogManager {
                 </div>
             </article>
         `;
+    }
+
+    // Load all gist embeds on the page and tabify multi-file ones
+    loadGistEmbeds() {
+        document.querySelectorAll('.post-gist[data-gist-id]').forEach(container => {
+            const gistId = container.dataset.gistId;
+            if (container.dataset.gistLoaded) return;
+            container.dataset.gistLoaded = 'true';
+
+            const callbackName = 'gist_callback_' + gistId.replace(/[^a-zA-Z0-9]/g, '_');
+            
+            window[callbackName] = (gistData) => {
+                if (!document.querySelector(`link[href="${gistData.stylesheet}"]`)) {
+                    const link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = gistData.stylesheet;
+                    document.head.appendChild(link);
+                }
+
+                const loading = container.querySelector('.gist-loading');
+                if (loading) loading.remove();
+
+                const gistDiv = document.createElement('div');
+                gistDiv.innerHTML = gistData.div;
+                container.insertBefore(gistDiv, container.firstChild);
+
+                this.tabifyGist(container);
+
+                delete window[callbackName];
+            };
+
+            const script = document.createElement('script');
+            script.src = `https://gist.github.com/${gistId}.json?callback=${callbackName}`;
+            document.body.appendChild(script);
+        });
+    }
+
+    // Convert multi-file gist into a tabbed interface
+    tabifyGist(container) {
+        const gistFiles = container.querySelectorAll('.gist-file');
+        if (gistFiles.length <= 1) return;
+
+        const tabs = [];
+        gistFiles.forEach((file, i) => {
+            const metaLinks = file.querySelectorAll('.gist-meta a');
+            const metaLink = metaLinks.length > 1 ? metaLinks[1] : metaLinks[0];
+            const rawName = metaLink ? metaLink.textContent.trim() : `File ${i + 1}`;
+            tabs.push({ name: rawName, element: file });
+        });
+
+        const tabBar = document.createElement('div');
+        tabBar.className = 'gist-tab-bar';
+        tabs.forEach((tab, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'gist-tab' + (i === 0 ? ' active' : '');
+            btn.textContent = tab.name;
+            btn.addEventListener('click', () => {
+                tabBar.querySelectorAll('.gist-tab').forEach(t => t.classList.remove('active'));
+                btn.classList.add('active');
+                tabs.forEach((t, j) => {
+                    t.element.style.display = j === i ? '' : 'none';
+                });
+            });
+            tabBar.appendChild(btn);
+        });
+
+        const gistWrapper = gistFiles[0].parentElement;
+        gistWrapper.insertBefore(tabBar, gistFiles[0]);
+
+        tabs.forEach((tab, i) => {
+            if (i > 0) tab.element.style.display = 'none';
+        });
+
+        gistWrapper.classList.add('gist-tabbed');
     }
 }
 

@@ -248,6 +248,7 @@
             }
 
             container.innerHTML = posts.map(post => blogManager.renderPost(post)).join('');
+            blogManager.loadGistEmbeds();
             
             // Load any gists that were queued during render
             if (typeof loadPendingGists === 'function') {

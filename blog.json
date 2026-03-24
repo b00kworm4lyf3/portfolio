@@ -1469,6 +1469,176 @@
           ]
         }
       ]
+    },
+    {
+      "id": "ATLS3300-2026-03-24-Lab-07",
+      "title": "ATLS3300 Lab 7: Trust the Process-ing",
+      "date": "2026-03-24",
+      "tags": {
+        "Course": ["ATLS3300", "Object"],
+        "Topic": ["Arduino", "Processing"]
+      },
+      "content":[
+        {
+          "type": "section",
+          "heading": "Description",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "This lab gives us new ways to use serial communication and has us design interactive visual outputs with Processing, which are controlled using our Arduino UNO and various components."
+            },
+            {
+              "type": "text",
+              "text": "Materials Used:\n- Arduino (Elegoo) Uno R3 Controller Board\n- USB Cable\n- Jumper Wires\n- Resistors\n- Joystick\n- Potentiometer\n- Thermistor\n- Multimeter\n"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 0: Setting Up Processing",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Before we can start on this lab we need to make sure we have the right tools. This one has us using something new -- the Processing Development Environment (PDE). I took a moment to change the theme of my PDE before getting started with coding."
+            },
+            {
+              "type": "image",
+              "src":"img/atls3300/lab07_proIDE.png",
+              "size": "medium",
+              "caption": "New Processing Development Environment window"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 1: Creating with Processing",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Our first Processing program is a basic example loop given to us in the lab documentation. It creates a 640x480 pixel window and draws a white circle with a 80px diameter wherever the user's cursor moves to."
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab07_circDraw1.mp4",
+              "size": "medium",
+              "caption": "Example code drawing circles"
+            },
+            {
+              "type": "text",
+              "text": "A few new lines of code and we can make this sketch a little more interesting."
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/534b5375661b6a11b9d5a1cd8d4fec9c",
+              "size": "medium"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab07_circDraw2.mp4",
+              "size":"medium",
+              "caption": "Updated circle sketch"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 2: Processing with Arduino",
+          "blocks":[
+            {
+              "type":"text",
+              "text": "Now we know how to write code for the Arduino and for Processing, but how do we get them to work together? This is where serial communication comes in! By using <code>Serial.println()</code> on the Arduino side, we can send whatever information we want to over serial and then parse that data through Processing. So, to try this out for the first time, we're going to hook up a joystick and use that to control the location of our circle drawings instead of the mouse. The push button part of the joystick will also be used, filling the circle with black instead of white while pressed."
+            },
+            {
+              "type": "images",
+              "layout": "side-by-side",
+              "images":[
+                {
+                  "src":"img/atls3300/lab07_js.JPG",
+                  "size": "medium",
+                  "caption": "Basic joystick circuit"
+                },
+                {
+                  "src": "img/atls3300/lab07_jsSchem.png",
+                  "size": "medium",
+                  "caption": "Basic joystick circuit schematic"
+                }
+              ]
+            },
+            {
+              "type":"gist",
+              "gistId": "b00kworm4lyf3/d62f1806a2d86e504a11fbef57187368",
+              "size": "small",
+              "caption": "Arduino code to write joystick input to serial"
+            },
+            {
+              "type": "video",
+              "src" :"img/atls3300/lab07_serDraw1.mp4",
+              "size": "small",
+              "caption": "Joystick values printed to serial monitor"
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/00695ba9e10f3d19114b757c812a6162",
+              "size": "medium",
+              "caption": "Processing code to parse serial data and draw"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab07_circDraw3.mp4",
+              "size":"medium",
+              "caption": "Circles being drawn with joystick input"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Part 3: Creating Your Own Visualization",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "The building blocks are all here now, time to build our own visualization with more input components! I made a little star particle system that used the joystick for the origin and gravity, a potentiometer for speed, and a thermistor for colour. I was getting some null pointer exceptions with the original parse code we were given, so I tried to update it a bit to be a bit more strict but it was still happening once in a while with this code. I'm not sure why that's happening, but I'll probably try picking apart the code a bit more at some point."
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/37962ce36f15beb6990c499b6908944a",
+              "size": "small",
+              "caption": "Arduino code to write component input to serial"
+            },
+            {
+              "type": "gist",
+              "gistId": "b00kworm4lyf3/990fa51e3477a4c98d7c80cabff49908",
+              "size": "medium",
+              "caption": "Processing files for defining and drawing star particle system"
+            },
+            {
+              "type": "video",
+              "src": "img/atls3300/lab07_starDraw.mp4",
+              "size": "medium",
+              "caption": "Star particles with different manipulations"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Extra Volt: Audio-Visual Interaction",
+          "blocks":[
+            {
+              "type":"text",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Problems Faced & Conclusion",
+          "blocks":[
+            {
+              "type": "text",
+              "text": "The biggest problem I ran into with this was not understanding how the tilt ball switch worked until I had built out my whole particle system with the idea that it would work like a gyroscope and I would be able to use it to change the gravity vector on my system. It wasn't a huge problem though, I just used the joystick instead and gave it both position and gravity and then added in the thermistor for my third component. I had a ton of fun with this assignment! Graphics are my favourite thing to code up and it was really cool to tie one of my particle systems to 'physical stimulus' rather than being self-contained or only changed by digital input."
+            }
+          ]
+        }
+      ]
     }
   ]
 }
