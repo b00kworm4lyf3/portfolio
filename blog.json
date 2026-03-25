@@ -1620,16 +1620,6 @@
         },
         {
           "type": "section",
-          "heading": "Extra Volt: Audio-Visual Interaction",
-          "blocks":[
-            {
-              "type":"text",
-              "text": ""
-            }
-          ]
-        },
-        {
-          "type": "section",
           "heading": "Problems Faced & Conclusion",
           "blocks":[
             {
