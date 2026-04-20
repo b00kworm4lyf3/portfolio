@@ -297,7 +297,7 @@
           "blocks":[
             {
               "type": "text",
-              "text": "Strangely enough the updated phong shading that used max and step instead of if statements dropped my FPS by about 40 (from ~640 to ~600 when drawing 10 cubes). I think this is because the original branching version actually cuts out a bunch of calculations when the surface is facing away from the light while this new version does all of them every time. So I guess in this case the branching was actually helping us be more efficient."
+              "text": "After updating the phong shading that used max and step instead of if statements, I was surprised to see my FPS dropped by about 40 (from ~640 to ~600 when drawing 10 cubes). I had assumed this would either not change anything or make things slightly faster, but I realized that this was because when doing it the original way a bunch of the calculations are entirely skipped for the faces that aren't facing the light, whereas with the max/step functions all calculations are done for all fragments. So in this case, the branching was actually more efficient. I also updated the foggyFresnel frag shader with a few noise functions I derived from online sources*. I don't really understand the math behind the noise functions just yet, there are so many different ways of generating noise and I think I'll need to dedicate a lot of time to reading about them to understand it all better. This procedural approach was significantly slower than sampling from a texture, which makes sense since the noise functions involve a lot of calculations. Overall I learned that branching isn't always bad for performance, and that sometimes pre-computing values (like in a texture) will be much faster than calculating them on the fly. I imagine I'll want to explore performance more later on but it was hard for me to come up with random things to try out without having like solid optimization goals in mind.\n\n*<a href=\"https://blog.42yeah.is/rendering/noise/2023/01/02/hash-and-noise.html\" target=\"_blank\" rel=\"noopener noreferrer\">Hash and Noise Blog</a>\n*<a href=\"https://www.shadertoy.com/view/XslGRr\" target=\"_blank\" rel=\"noopener noreferrer\">Shadertoy Example</a>\n*<a href=\"https://iquilezles.org/articles/fbm/\" target=\"_blank\" rel=\"noopener noreferrer\">FBM Article</a>\n*<a href=\"https://buckslice.github.io/archive/explaining-noise\" target=\"_blank\" rel=\"noopener noreferrer\">Noise Explainer</a>"
             }
           ]
         }
@@ -1006,18 +1006,24 @@
           "blocks": [
             {
               "type": "text",
-              "text": "I want to try my hand at foggy glass again, this time going the realistic/image processing route. I plan on first getting a good glass effect going followed by surface fog or droplets, and if I have extra time I'll look at trying to use user input to click and clear the glass like I did for my procedural textures at the beginning of the semester. "
+              "text": "I want to try my hand at foggy glass again, this time going the realistic/image processing route. I plan on first getting a good glass effect going followed by surface fog or droplets, and if I have extra time I'll look at trying to use user input to click and clear the glass like I did for my procedural textures at the beginning of the semester."
             }
           ]
         },
         {
           "type": "section",
           "heading": "Reflection",
-          "note": "Written 02---",
+          "note": "Written 02-18",
           "blocks":[
             {
+              "type":"video",
+              "src":"img/csci4239/hw6.mp4",
+              "caption":"Demo of both fisheye implementations and 'reflections'",
+              "size":"medium"
+            },
+            {
               "type": "text",
-              "text": ""
+              "text": "I didn't get around to the foggy part of my glass as I got stuck just trying to make the glass effect itself. I started with a fisheye distortion (<code>fisheye.frag</code>), which was a success, and then started trying to get reflections to work and I think I just didn't understand what was possible while doing this with an image texture rather than something like raytracing, Vlakkies suggested implementing the OpenCV fisheye effect, which looked pretty similar to mine but more realistic -- it was a lot more tunable than my solution and I'm glad I took a look at that. I think post-processing for glass effects should probably only happen when you're actually trying to draw glass objects, I was trying to do something weird by faking the glass object/lens and I couldn't even find any resources for something similar so was just winging it. The fisheye effect is a realistic thing to try as an image processing effect, and would be very fun to try to implement with the webcam feed other people used as a base for their homework, but the \"reflections\"/fresnel effect I was trying to do just aren't possible with the data I was working with. Working in 2D screenspace means I can only work with screen coordinates or pixel colours, not enough to replicate refraction through a crystal ball."
             }
           ]
         }
@@ -1629,6 +1635,202 @@
           ]
         }
       ]
+    },
+    {
+      "id": "CSCI4239-2026-03-04-Homework-07",
+      "title": "CSCI4239 Homework 7: Stored Textures",
+      "date": "2026-03-04",
+      "tags": {
+        "Course": ["CSCI4239", "Advanced Computer Graphics"],
+        "Topic": ["GLSL Shaders", "OpenGL"]
+      },
+      "content": [
+        {
+          "type": "section",
+          "heading": "Goals",
+          "note": "Written 03-01",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "I'm going to reuse my galaxy particle system from homework 5 as a base for this homework and add in some of the features I didn't get to implement for that homework. I already have the colour ramp (one stored texture!) but would like to modulate the particle movement with a noise texture and maybe try making a density map to determine particle size if I have the time to do that after the other things."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reflection",
+          "note": "Written 03-05",
+          "blocks":[
+            {
+              "type": "video",
+              "src": "img/csci4239/hw7.mp4",
+              "size": "medium",
+              "caption": "Comparison between original HW5 and updated HW7 particle systems"
+            },
+            {
+              "type": "text",
+              "text": "After translating my previous work from homework 5 I worked on modulating the particle movement on the z axis with a noise texture generated using `noise.c`, which I used in my vert shader -- sampling it with the particle position and time so the particles flow through different patterns through time. That all didn't take as much time as I thought it would, so got to make a density map to determine particle size. It was a more straightforward process than I originally imagined it to be -- I just incremented a 32x32 array as I generated particle locations, remapped the densities from 0-max to 0-255, and then uploaded all that to a single channel texture to sample from in the vert shader. I spent maybe 10 hours on this project, some of that was moving my particle system over from my webGL project though. I'm very happy with what I got done this week! Coming up with things I wanted to store was kinda hard, but I think I got a good spread of things and got to try a few different ways of generating textures -- I'm excited to keep finding new ways to use textures to store things."
+            }
+          ]
+        }
+      ],
+      "assignmentDetails": "Create a program using GLSL that uses textures for data storage.\n\nThis is a free form assignment.  You can use textures to store functional relations, translations, noise, bump maps, or any similar application.\n\nWhat to submit:\n1) README with discussion of results, brief instructions on how to use the program and a short discussion of what specific application you are using the texture(s) for;\n2) One ZIP archive containing all files you are submitting;\n3) Source code, makefile and any data files I need;\n4) Time it took you to complete the assignment."
+    },
+    {
+      "id": "CSCI4239-2026-03-11-Homework-08",
+      "title": "CSCI4239 Homework 8: Advanced Texture Mapping",
+      "date": "2026-03-11",
+      "tags": {
+        "Course": ["CSCI4239", "Advanced Computer Graphics"],
+        "Topic": ["GLSL Shaders", "OpenGL"]
+      },
+      "content": [
+        {
+          "type": "section",
+          "heading": "Goals",
+          "note": "Written 03-08",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "I'm going to build on the texture scrolling effect I used for my fire texture in homework 5, using a similar technique to blend different noise textures and their normal maps to make a lava landscape. I'm using <a href=\"https://noisegen.bubblebirdstudio.com/\" target=\"_blank\" rel=\"noopener noreferrer\">this Bubblebird Studio tool</a> again to generate the textures I need and might explore some vertex manipulation as well to add more to the effect."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reflection",
+          "note": "Written 03-05",
+          "blocks":[
+            {
+              "type": "video",
+              "src": "img/csci4239/hw8.mp4",
+              "size": "medium"
+            },
+            {
+              "type": "text",
+              "text": "For this homework I wanted to blend a few different texture techniques I've learned over the semester to build a unique custom texture. I combined dynamic texture scrolling for lava with static voronoi stacked with perlin to build the rocks the lava is flowing around. The lava itself uses only a flat normal -- using the perlin normal map on it looked very silly, but the rocky areas around the lava use the blended normal maps of perlin and voronoi noise. I blended them by first sampling both normal map textures, adding together and then normalizing those samples, and then mixed that with the flat normal for the lava using a blend factor that I fiddled with until it looked right but had no science behind it. When determining the right blend factor I wanted the edges of the lava to have a little texture to them, like it was heating the rock it was flowing over, but not so much that it looked like it was defying gravity! This was all actually pretty straight-forward once I got into it! I ended up spending around 6 hours on the frag shader part of things and then explored also doing some displacement in the vert shader, but the geometry I was working with was too low-poly to actually work well for displacement. I'll probably mess with this a bit more at some point in order to actually try out the displacement mapping -- I don't want to build a high-poly cube but maybe I can find an .obj to add."
+            }
+          ]
+        }
+      ],
+      "assignmentDetails": "Create a program that uses a stored texture to implement normal mapping, bump mapping or a related advanced texture use.\n\nWhat to draw is up to you.  Choose something that illustrates the techniques you are implementing.\n\nWhat to submit:\n\n1) README with brief instructions on how to use the program and what I should take note of;\n\n2) One ZIP archive containing all files you are submitting;\n\n3) Source code, makefile and any data files I need;\n\n4) Time it took you to complete the assignment."
+    },
+    {
+      "id": "CSCI4239-2026-03-25-Homework-09",
+      "title": "CSCI4239 Homework 9: Particle Systems, Instancing, and Geometry Shaders",
+      "date": "2026-03-25",
+      "tags": {
+        "Course": ["CSCI4239", "Advanced Computer Graphics"],
+        "Topic": ["GLSL Shaders", "OpenGL"]
+      },
+      "content": [
+        {
+          "type": "section",
+          "heading": "Goals",
+          "note": "Written 03-21",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "I've done a bunch of particle systems in this course so far so I want to focus on the instancing and geometry shader stuff for this homework. I'm going to build off the instancing homework and dig into how that works. I think it would be fun to find a duck .obj and make a whole flock of ducks! And then maybe if I have time I could add some geometry shader grass for them all to stand in. So that's my basic plan but I don't have much more than that for this homework, going in mostly blind with the intention of exploring as much as possible."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reflection",
+          "note": "Written 03-25",
+          "blocks":[
+            {
+              "type": "video",
+              "src": "img/csci4239/hw9.mp4",
+              "size": "medium"
+            },
+            {
+              "type": "text",
+              "text": "This project changed a lot from initial goals to now! Once I started looking at the instancing I realized I'd need to write a new .obj loader to instance a complex shape like a duck and I didn't want to spend the time I had doing that, so I decided to work with what was already in the scene. I made pillars out of the original icosahedron demo data to play with the instancing -- I wanted to try to understand the instance ID stuff so animated them based on their IDs and messed around with how generating their positions changed the way their IDs were organized spacially. For the particles I sorta just tried to get a similar pipeline to the geometry shader example working in my homework. I was pretty confused by a lot of the syntactical differences -- in/out makes sense but making sure I had the right layouts and things set as arrays bit me in the butt more than once. I feel like I understand it better now though and would love to try making a field of grass like what was shown in class."
+            }
+          ]
+        }
+      ],
+      "assignmentDetails": "Implement a particle engine using instancing and/or geometry shaders.\n\nWhat to draw is up to you.  Choose something that illustrates the techniques you are implementing.\n\nWhat to submit:\n\n1) README with brief instructions on how to use the program and what I should take note of;\n\n2) One ZIP archive containing all files you are submitting;\n\n3) Source code, makefile and any data files I need;\n\n4) Time it took you to complete the assignment."
+    },
+    {
+      "id": "CSCI4239-2026-04-01-Homework-10",
+      "title": "CSCI4239 Homework 10: Advanced Shaders",
+      "date": "2026-04-01",
+      "tags": {
+        "Course": ["CSCI4239", "Advanced Computer Graphics"],
+        "Topic": ["GLSL Shaders", "OpenGL"]
+      },
+      "content": [
+        {
+          "type": "section",
+          "heading": "Goals",
+          "note": "Written 03-28",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "I'm going to implement the vert displacement I wanted for my lava landscape from the normal mapping homework using a tessellation shader this week! I'll need to translate all my original shaders from 1.2 to 4.0 before adding the tessellation stage, but I don't see that being a huge problem. If I get everything done quickly I may also try to add in a compute shader. I really want to try a boid simulation, but that would also work for the GPU programming homework if I donn't get to it now."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reflection",
+          "note": "Written 04-02",
+          "blocks":[
+            {
+              "type": "video",
+              "src": "img/csci4239/hw10.mp4",
+              "size": "medium"
+            },
+            {
+              "type": "text",
+              "text": "This was fun to implement this week! Translating my version 1.2 lava shaders into 4.0 was a bit frustrating, I think I need more practice with the in/out situation when using more than just vert/frag shaders and how to pipe things through each stage properly, but I got it eventually and this turned out pretty satisfying! Just knowing what every stage needs and the format it needs it in (arrays????) was humbling, the first few runs were just shader complaint crashes because of the different things the vert and geom shaders needed. But I do think I learned a lot about the shader stages while debugging everything! Once things were translated and working I debated adding in some LOD stuff, but ultimately decided it wouldn't add anything to my learning as it would just be a few replaced params in the tessellation shader. It's cool to see something I had originally put together as a 2D texture with normal mapping have actual displacement. Nothing super crazy or in-depth this week, I would've liked to switch to smooth normals for the tessellation and add a compute shader just to try out but I ran out of time. No worries though, I'll do boids for the GPU programming homework and try out smooth normals in my own time! Maybe as a summer project addition."
+            }
+          ]
+        }
+      ],
+      "assignmentDetails": "Create a program that uses an advanced shader such as a tessalation or compute shader.\n\nWhat to draw is up to you.  Choose something that illustrates the techniques you are implementing.\n\nWhat to submit:\n1) README with brief instructions on how to use the program and what I should take note of;\n2) One ZIP archive containing all files you are submitting;\n3) Source code, makefile and any data files I need;\n4) Time it took you to complete the assignment."
+    },
+    {
+      "id": "CSCI4239-2026-04-08-Homework-11",
+      "title": "CSCI4239 Homework 11: GPU Programming",
+      "date": "2026-04-08",
+      "tags": {
+        "Course": ["CSCI4239", "Advanced Computer Graphics"],
+        "Topic": ["OpenCL", "OpenGL"]
+      },
+      "content": [
+        {
+          "type": "section",
+          "heading": "Goals",
+          "note": "Written 04-05",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Time to try boids! I'm very excited about this, I think I'm going to use CUDA because I have some previous experience with Nvidia Warp so that would be the more straightforward place to start. Instead of going about this efficiently with a grid and partitioning I'll be doing the n^2 implementation in order to see the most difference between CPU and GPU runs."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reflection",
+          "note": "Written 04-09",
+          "blocks":[
+            {
+              "type": "video",
+              "src": "img/csci4239/hw11.mp4",
+              "size": "medium"
+            },
+            {
+              "type": "text",
+              "text": "I ended up using OpenCL for this homework because the nBody example was set up very closely to what I needed, this also had the effect of letting me look at and use something new so overall a win. Boids are a great case for GPU parallelization because each boid's calculations are independent from the other boids' results, but they all rely on each other's input in those calculations. I got things rendering pretty quickly (surprisingly), but spent SO MUCH TIME trying to tune the weights and rules used to control these little guys. I think I need to study more about this because I couldn't figure out the right weights to get the behaviours I wanted, the boids kept clumping in different formations no matter what I tried >< My current weights are pretty close to the behaviour I want, but they're making too large flocks and it takes a bit to really get started and actually doing somewhat proper behaviour... I'll probably try this again at some point from scratch rather than editing an already-existing program. For this program, running 8192 boids, sequential (CPU) mode runs ~1FPS while the OpenCL mode runs at ~110FPS."
+            }
+          ]
+        }
+      ],
+      "assignmentDetails": "Create a program that uses CUDA, OpenCL or OpenACC to speed up calculations. Compare the speed of a CPU based implementation with a GPU implementation.\n\nIt is NOT acceptable to simply take Examples 20 or 21 and adding meaningless computations to the matrix operations. You need to attempt a meaningful computation using the GPU. In order to see a benefit from the GPU computing, you will likely have to operate on a large data set.\n\nWhat to submit:\n1) README with discussion of results, brief instructions on how to use the program and a short discussion of the parallel algorithm;\n2) One ZIP archive containing all files you are submitting;\n3) Source code, makefile and any data files I need;\n4) Time it took you to complete the assignment."
     }
   ]
 }
