@@ -1831,6 +1831,45 @@
         }
       ],
       "assignmentDetails": "Create a program that uses CUDA, OpenCL or OpenACC to speed up calculations. Compare the speed of a CPU based implementation with a GPU implementation.\n\nIt is NOT acceptable to simply take Examples 20 or 21 and adding meaningless computations to the matrix operations. You need to attempt a meaningful computation using the GPU. In order to see a benefit from the GPU computing, you will likely have to operate on a large data set.\n\nWhat to submit:\n1) README with discussion of results, brief instructions on how to use the program and a short discussion of the parallel algorithm;\n2) One ZIP archive containing all files you are submitting;\n3) Source code, makefile and any data files I need;\n4) Time it took you to complete the assignment."
+    },
+    {
+      "id": "CSCI4239-2026-04-22-Homework-12",
+      "title": "CSCI4239 Homework 12: Ray Tracing",
+      "date": "2026-04-22",
+      "tags": {
+        "Course": ["CSCI4239", "Advanced Computer Graphics"],
+        "Topic": ["GLSL Shaders", "OpenGL"]
+      },
+      "content": [
+        {
+          "type": "section",
+          "heading": "Goals",
+          "note": "Written 04-20",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "Final chance for trying glass so I'm going to grab it. I want to first get refraction and fresel working for various primitives (sphere and cube at least) before confirming with more complex shapes. If I still have time after that I also want to try to get caustics working, at least for the sphere. It's a bit ambitious to try something real time with the small amout of time I have between working on other projects, but this is something I've been interested in all semester so would prefer to be ambitious than do something I'm less interested in."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "heading": "Reflection",
+          "note": "Written 04---",
+          "blocks":[
+            {
+              "type": "video",
+              "src": "img/csci4239/hw12.mp4",
+              "size": "medium"
+            },
+            {
+              "type": "text",
+              "text": ""
+            }
+          ]
+        }
+      ],
+      "assignmentDetails": "Create a ray traced scene using PBRT.  You may use Example 27 as a starting place, but you must make a substantial improvement to the scene.  My example uses PBRTv3. You can use PBRTv4 if you wish, but note that there are some syntax differences between 3 and 4. The PBRT book covers Version 3.\n\nAlternatively, if you feel very ambitious and want to write your own real time ray tracing program you could do so also. However, this needs to be a lot more sophisticated than my simple three sphere ray tracer.\n\nWhat to submit:\n1) README with discussion of results, brief instructions on how to use the program and a short discussion of the parallel algorithm;\n2) One ZIP archive containing all files you are submitting;\n3) Source code, makefile and any data files I need;\n4) Time it took you to complete the assignment."
     }
   ]
 }
