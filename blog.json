@@ -1855,7 +1855,7 @@
         {
           "type": "section",
           "heading": "Reflection",
-          "note": "Written 04---",
+          "note": "Written 04-23",
           "blocks":[
             {
               "type": "video",
@@ -1864,7 +1864,20 @@
             },
             {
               "type": "text",
-              "text": ""
+              "text": "I finally made some glass! This was lots of fun n_n but did take longer than I expected to just get the sphere working so I didn't get to the cube or any of my other stretch goals sadly. I'll be working on adding those in my free time though, because I feel like I learned a lot just implementing the sphere and I really want to try out getting some caustics working and implement a few different primitive shapes. I implemented reflection+fresnel, refraction, and specular lighting for my glass marble, and an environment built of the existing sky color function from the ocean frag shader and a new checkerboard plane to add some extra visual interest."
+            },
+            {
+              "type": "image",
+              "src": "img/csci4239/hw12.png",
+              "size": "small"
+            },
+            {
+              "type":"text",
+              "text":"I struggled a bit with getting the refraction right at first, I was using the original position and direction vectors to calculate the far hit point instead of the new refracted direction and the near hit point, and it looked more like a marble inside another marble for a while until I figured that out.  It was super cool doing this all in the frag shader, but wrapping my head around it at first was pretty difficult."
+            },
+            {
+              "type":"text",
+              "text": "I'm so happy I decided to take some time out of my busy week to do something real time for this assignment. Check out the <a href=\"https://github.com/b00kworm4lyf3/CSCI4239-hw12-rayTracing\" target=\"_blank\" rel=\"noopener noreferrer\">Github repo</a> to see what updates I make to the scene."
             }
           ]
         }
